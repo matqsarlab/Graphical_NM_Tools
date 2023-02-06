@@ -3,11 +3,16 @@ import os
 import customtkinter
 from spinbox import FloatSpinbox
 
+customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
+customtkinter.set_default_color_theme(
+    "dark-blue"
+)  # Themes: blue (default), dark-blue, green
+
 
 class App(customtkinter.CTk):
     # Constants
     WIDTH = 800
-    HEIGHT = 600
+    HEIGHT = 800
     CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
     darkblue = "#1f538d"
     activecolor = "#184270"
@@ -53,34 +58,79 @@ class App(customtkinter.CTk):
     def DFTFrame(self):
         # create dft frame
         self.dft_frame = customtkinter.CTkFrame(
-            master=self,
-            corner_radius=10,
-            fg_color="transparent",
+            master=self, corner_radius=10, fg_color="transparent"
         )
         self.dft_frame.grid(row=0, column=1, sticky="nwse")
-        self.dft_frame.columnconfigure(1, weight=1)
-        self.dft_frame.rowconfigure(1, weight=1)
-        self.textbox2 = customtkinter.CTkTextbox(self.dft_frame, width=250)
-        self.textbox2.grid(row=0, column=1, padx=(20, 20), pady=(20, 0), sticky="nsew")
+
+        # Left Block
+        self.leftBlock_frame = customtkinter.CTkFrame(
+            master=self.dft_frame,
+            corner_radius=10,
+            fg_color="transparent",
+            height=400,
+            width=600,
+        )
+        self.leftBlock_frame.grid(row=0, column=0, sticky="nwse")
+
+        # Buttons +/-
+        self.spinbox_1 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=1,
+            default_text="Number of processors",
+        )
+
+        self.spinbox_1.grid(padx=20, pady=(50, 0), row=0, column=0, sticky="we")
+
+        self.spinbox_2 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=4,
+            default_text="RAM [GB]",
+            default_val=16,
+        )
+        self.spinbox_2.grid(padx=20, pady=(20, 0), row=1, column=0, sticky="we")
+
+        self.spinbox_3 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=0,
+            default_text="Charge",
+        )
+        self.spinbox_3.grid(padx=20, pady=(20, 0), row=2, column=0, sticky="we")
+
+        self.spinbox_4 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=1,
+            default_text="Multiplicity",
+        )
+        self.spinbox_4.grid(padx=20, pady=(20, 0), row=3, column=0, sticky="we")
+
+        # Rigth Block
+        self.rightBlock_frame = customtkinter.CTkFrame(
+            master=self.dft_frame, corner_radius=10, fg_color="transparent"
+        )
+        self.rightBlock_frame.grid(row=0, column=1, sticky="nwse")
+
+        # TextBox
+        self.textbox2 = customtkinter.CTkTextbox(
+            self.rightBlock_frame, width=250, height=400
+        )
+        self.textbox2.grid(row=0, column=1, padx=(20, 20), pady=(20, 0), sticky="ew")
         self.textbox2.insert(
             "0.0",
             "CTkTextbox\n\n"
             + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n"
             * 200,
         )
-        self.textbox3 = customtkinter.CTkTextbox(self.dft_frame, width=250)
-        self.textbox3.grid(row=2, column=1, padx=(20, 20), pady=(20, 0), sticky="nsew")
-        self.textbox3.insert("0.0", "Mateusz")
+        self.rightBlock_frame.columnconfigure(1, weight=1)
 
-        # Buttons +/-
-        self.spinbox_1 = FloatSpinbox(
-            self.dft_frame, width=100, step_size=1, default_text="Number of processors"
-        )
-        self.spinbox_1.grid(padx=20, pady=1, row=0, column=0)
-        self.spinbox_1 = FloatSpinbox(
-            self.dft_frame, width=100, step_size=1, default_text="RAM [GB]"
-        )
-        self.spinbox_1.grid(padx=20, pady=1, row=1, column=0)
+        self.DFTFrame_buttons()
+
+        # Constant height and weight for left & right blocks
+        self.dft_frame.rowconfigure(0, weight=1)
+        self.dft_frame.columnconfigure(1, weight=1)
 
     def NavButtons(self):
         # Home button
@@ -113,6 +163,26 @@ class App(customtkinter.CTk):
             command=self.dft_button_event,
         )
         self.dft_button.grid(row=2, column=0, sticky="ew", padx=10, pady=10)
+
+    def DFTFrame_buttons(self):
+        self.dupa_button = customtkinter.CTkButton(
+            master=self.leftBlock_frame,
+            fg_color="green",
+        )
+        self.dupa_button.grid(row=5, column=0, sticky="es", pady=(20, 10))
+
+        self.dupa_button2 = customtkinter.CTkButton(
+            master=self.rightBlock_frame,
+            width=250,
+            fg_color="green",
+        )
+        self.dupa_button2.grid(
+            row=6,
+            column=1,
+            padx=(20, 20),
+            pady=(20, 0),
+            sticky="es",
+        )
 
     def select_frame_by_name(self, name):
         # set button color for selected button
