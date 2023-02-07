@@ -235,6 +235,7 @@ class App(customtkinter.CTk):
         self.dft_button.grid(row=2, column=0, sticky="ew", padx=10, pady=10)
 
     def DFTFrame_buttons(self):
+
         self.view_button = customtkinter.CTkButton(
             master=self.leftBlock_frame,
             fg_color="green",
@@ -274,6 +275,22 @@ class App(customtkinter.CTk):
             padx=(20, 20),
             pady=(20, 0),
             sticky="es",
+        )
+        if self._xyz != "XYZ Structure...":
+            self.save_button.configure(state="normal")
+
+        self.manyFiles = customtkinter.CTkButton(
+            master=self.rightBlock_frame,
+            width=10,
+            fg_color="green",
+            text="Save",
+        )
+        self.manyFiles.grid(
+            row=6,
+            column=1,
+            padx=(20, 20),
+            pady=(20, 0),
+            sticky="ws",
         )
 
     def viewButtonFunc(self):
