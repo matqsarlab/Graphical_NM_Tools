@@ -9,6 +9,23 @@ customtkinter.set_default_color_theme(
 )  # Themes: blue (default), dark-blue, green
 
 
+def dft_read(nproc="8", ram="16", charge="0", multiplicity="1", basis="Basis-1"):
+    txt = f"""%NProcShared={nproc}
+%mem={ram}gb
+%chk=
+#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
+     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
+
+test
+
+{charge} {multiplicity}
+---------------------------
+{basis}
+****
+"""
+    return txt
+
+
 class App(customtkinter.CTk):
     # Constants
     WIDTH = 800
@@ -20,7 +37,7 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("App")
+        self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
 
         # Navigation Frame
@@ -62,6 +79,23 @@ class App(customtkinter.CTk):
         )
         self.dft_frame.grid(row=0, column=1, sticky="nwse")
 
+        # Console TextBox
+        self.consoletextbox = customtkinter.CTkTextbox(
+            self.dft_frame, width=250, height=350
+        )
+        self.consoletextbox.grid(
+            row=5,
+            column=0,
+            padx=(20, 20),
+            pady=(10, 20),
+            sticky="wse",
+            columnspan=2,
+        )
+        self.consoletextbox.insert(
+            "0.0",
+            dft_read(),
+        )
+
         # Left Block
         self.leftBlock_frame = customtkinter.CTkFrame(
             master=self.dft_frame,
@@ -73,14 +107,19 @@ class App(customtkinter.CTk):
         self.leftBlock_frame.grid(row=0, column=0, sticky="nwse")
 
         # Buttons +/-
+        self._spinboxN = 0  # row counter for buttons in left block
         self.spinbox_1 = FloatSpinbox(
             self.leftBlock_frame,
             width=100,
             step_size=1,
             default_text="Number of processors",
+            default_val=8,
         )
 
-        self.spinbox_1.grid(padx=20, pady=(50, 0), row=0, column=0, sticky="we")
+        self.spinbox_1.grid(
+            padx=20, pady=(50, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
 
         self.spinbox_2 = FloatSpinbox(
             self.leftBlock_frame,
@@ -89,15 +128,22 @@ class App(customtkinter.CTk):
             default_text="RAM [GB]",
             default_val=16,
         )
-        self.spinbox_2.grid(padx=20, pady=(20, 0), row=1, column=0, sticky="we")
+        self.spinbox_2.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
 
         self.spinbox_3 = FloatSpinbox(
             self.leftBlock_frame,
             width=100,
-            step_size=0,
+            step_size=1,
             default_text="Charge",
+            default_val=0,
         )
-        self.spinbox_3.grid(padx=20, pady=(20, 0), row=2, column=0, sticky="we")
+        self.spinbox_3.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
 
         self.spinbox_4 = FloatSpinbox(
             self.leftBlock_frame,
@@ -105,7 +151,27 @@ class App(customtkinter.CTk):
             step_size=1,
             default_text="Multiplicity",
         )
-        self.spinbox_4.grid(padx=20, pady=(20, 0), row=3, column=0, sticky="we")
+        self.spinbox_4.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
+
+        # self.spinbox_5 = FloatSpinbox(
+        #     self.leftBlock_frame,
+        #     width=100,
+        #     step_size=1,
+        #     default_text="Basis Set",
+        # )
+        # self.spinbox_5.grid(
+        #     padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        # )
+        self.spinbox_5 = customtkinter.CTkOptionMenu(
+            self.leftBlock_frame, values=["Basis-1", "Basis-2"]
+        )
+        self.spinbox_5.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
 
         # Rigth Block
         self.rightBlock_frame = customtkinter.CTkFrame(
@@ -115,7 +181,7 @@ class App(customtkinter.CTk):
 
         # TextBox
         self.textbox2 = customtkinter.CTkTextbox(
-            self.rightBlock_frame, width=250, height=400
+            self.rightBlock_frame, width=250, height=300
         )
         self.textbox2.grid(row=0, column=1, padx=(20, 20), pady=(20, 0), sticky="ew")
         self.textbox2.insert(
@@ -168,21 +234,58 @@ class App(customtkinter.CTk):
         self.dupa_button = customtkinter.CTkButton(
             master=self.leftBlock_frame,
             fg_color="green",
+            text="View",
+            command=self.viewButtonFunc,
         )
-        self.dupa_button.grid(row=5, column=0, sticky="es", pady=(20, 10))
+        self.dupa_button.grid(
+            row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
+        )
 
-        self.dupa_button2 = customtkinter.CTkButton(
+        self.view_button = customtkinter.CTkButton(
             master=self.rightBlock_frame,
             width=250,
             fg_color="green",
+            text="Result",
         )
-        self.dupa_button2.grid(
+        self.view_button.grid(
             row=6,
             column=1,
             padx=(20, 20),
             pady=(20, 0),
             sticky="es",
         )
+
+    def dupaButton(self):
+        x = self.spinbox_1.get()
+        y = self.spinbox_2.get()
+        txt = f"""nproc = {x}
+                 ram = {y}"""
+        return str(txt)
+
+    def viewButtonFunc(self):
+        nproc = str(self.spinbox_1.get())
+        ram = str(self.spinbox_2.get())
+        charge = str(self.spinbox_3.get())
+        multiplicity = str(self.spinbox_4.get())
+        basis = str(self.spinbox_5.get())
+
+        txt = f"""%NProcShared={nproc}
+%mem={ram}gb
+%chk=
+#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
+     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
+
+test
+
+{charge} {multiplicity}
+---------------------------
+{basis}
+****
+"""
+        self.consoletextbox.configure(state="normal")
+        self.consoletextbox.delete("0.0", "end")
+        self.consoletextbox.insert("0.0", txt)
+        self.consoletextbox.configure(state="disabled")
 
     def select_frame_by_name(self, name):
         # set button color for selected button
