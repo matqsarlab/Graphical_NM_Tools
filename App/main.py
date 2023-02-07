@@ -4,6 +4,7 @@ import customtkinter
 from customtkinter import filedialog
 from spinbox import FloatSpinbox
 
+print("dupa")
 customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme(
     "dark-blue"
