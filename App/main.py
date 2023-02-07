@@ -1,6 +1,7 @@
 import os
 
 import customtkinter
+from customtkinter import filedialog
 from spinbox import FloatSpinbox
 
 customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
@@ -9,7 +10,14 @@ customtkinter.set_default_color_theme(
 )  # Themes: blue (default), dark-blue, green
 
 
-def dft_read(nproc="8", ram="16", charge="0", multiplicity="1", basis="Basis-1"):
+def dft_read(
+    nproc="8",
+    ram="16",
+    charge="0",
+    multiplicity="1",
+    basis="Basis-1",
+    xyz="XYZ structure...",
+):
     txt = f"""%NProcShared={nproc}
 %mem={ram}gb
 %chk=
@@ -17,9 +25,10 @@ def dft_read(nproc="8", ram="16", charge="0", multiplicity="1", basis="Basis-1")
      IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
 
 test
-
 {charge} {multiplicity}
----------------------------
+
+{xyz}
+
 {basis}
 ****
 """
@@ -36,6 +45,7 @@ class App(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
+        self._xyz = "XYZ Structure..."
 
         self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
@@ -93,8 +103,9 @@ class App(customtkinter.CTk):
         )
         self.consoletextbox.insert(
             "0.0",
-            dft_read(),
+            dft_read(xyz=self._xyz),
         )
+        self.consoletextbox.configure(state="disabled")
 
         # Left Block
         self.leftBlock_frame = customtkinter.CTkFrame(
@@ -156,15 +167,6 @@ class App(customtkinter.CTk):
         )
         self._spinboxN += 1
 
-        # self.spinbox_5 = FloatSpinbox(
-        #     self.leftBlock_frame,
-        #     width=100,
-        #     step_size=1,
-        #     default_text="Basis Set",
-        # )
-        # self.spinbox_5.grid(
-        #     padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
-        # )
         self.spinbox_5 = customtkinter.CTkOptionMenu(
             self.leftBlock_frame, values=["Basis-1", "Basis-2"]
         )
@@ -183,7 +185,9 @@ class App(customtkinter.CTk):
         self.textbox2 = customtkinter.CTkTextbox(
             self.rightBlock_frame, width=250, height=300
         )
-        self.textbox2.grid(row=0, column=1, padx=(20, 20), pady=(20, 0), sticky="ew")
+        self.textbox2.grid(
+            row=0, column=1, padx=(20, 20), pady=(20, 0), columnspan=2, sticky="ew"
+        )
         self.textbox2.insert(
             "0.0",
             "CTkTextbox\n\n"
@@ -222,7 +226,6 @@ class App(customtkinter.CTk):
             height=40,
             border_spacing=10,
             text="DFT",
-            # fg_color="transparent",
             text_color=("gray10", "gray90"),
             hover_color=("gray70", "gray30"),
             anchor="c",
@@ -231,23 +234,24 @@ class App(customtkinter.CTk):
         self.dft_button.grid(row=2, column=0, sticky="ew", padx=10, pady=10)
 
     def DFTFrame_buttons(self):
-        self.dupa_button = customtkinter.CTkButton(
+        self.view_button = customtkinter.CTkButton(
             master=self.leftBlock_frame,
             fg_color="green",
             text="View",
             command=self.viewButtonFunc,
         )
-        self.dupa_button.grid(
+        self.view_button.grid(
             row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
         )
 
-        self.view_button = customtkinter.CTkButton(
+        self.open_button = customtkinter.CTkButton(
             master=self.rightBlock_frame,
-            width=250,
+            width=100,
             fg_color="green",
-            text="Result",
+            text="Open...",
+            command=self.openXYZfiles,
         )
-        self.view_button.grid(
+        self.open_button.grid(
             row=6,
             column=1,
             padx=(20, 20),
@@ -255,12 +259,21 @@ class App(customtkinter.CTk):
             sticky="es",
         )
 
-    def dupaButton(self):
-        x = self.spinbox_1.get()
-        y = self.spinbox_2.get()
-        txt = f"""nproc = {x}
-                 ram = {y}"""
-        return str(txt)
+        self.save_button = customtkinter.CTkButton(
+            master=self.rightBlock_frame,
+            width=100,
+            fg_color="green",
+            text="Save",
+            command=self.xyz2gaussian_save,
+            state="disabled",
+        )
+        self.save_button.grid(
+            row=6,
+            column=2,
+            padx=(20, 20),
+            pady=(20, 0),
+            sticky="es",
+        )
 
     def viewButtonFunc(self):
         nproc = str(self.spinbox_1.get())
@@ -269,23 +282,40 @@ class App(customtkinter.CTk):
         multiplicity = str(self.spinbox_4.get())
         basis = str(self.spinbox_5.get())
 
-        txt = f"""%NProcShared={nproc}
-%mem={ram}gb
-%chk=
-#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
+        txt = dft_read(nproc, ram, charge, multiplicity, basis, xyz=self._xyz)
 
-test
-
-{charge} {multiplicity}
----------------------------
-{basis}
-****
-"""
         self.consoletextbox.configure(state="normal")
         self.consoletextbox.delete("0.0", "end")
         self.consoletextbox.insert("0.0", txt)
         self.consoletextbox.configure(state="disabled")
+
+    def openXYZfiles(self):
+        _f = filedialog.askopenfilename()
+        o = open(_f)
+        self._xyz = o.readlines()[2:]
+        self._xyz = "".join(self._xyz)
+        o.close()
+
+        nproc = str(self.spinbox_1.get())
+        ram = str(self.spinbox_2.get())
+        charge = str(self.spinbox_3.get())
+        multiplicity = str(self.spinbox_4.get())
+        basis = str(self.spinbox_5.get())
+
+        txt = dft_read(nproc, ram, charge, multiplicity, basis, self._xyz)
+
+        self.consoletextbox.configure(state="normal")
+        self.consoletextbox.delete("0.0", "end")
+        self.consoletextbox.insert("0.0", txt)
+        self.consoletextbox.configure(state="disabled")
+
+        self.save_button.configure(state="normal")
+
+    def xyz2gaussian_save(self):
+        fileName = filedialog.asksaveasfilename()
+        txt = self.consoletextbox.get("0.0", "end")
+        with open(fileName, "w") as f:
+            f.write(txt)
 
     def select_frame_by_name(self, name):
         # set button color for selected button
