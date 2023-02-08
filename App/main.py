@@ -1,10 +1,10 @@
 import os
+import tkinter
 
 import customtkinter
 from customtkinter import filedialog
 from spinbox import FloatSpinbox
 
-print("dupa")
 customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme(
     "dark-blue"
@@ -38,7 +38,7 @@ test
 
 class App(customtkinter.CTk):
     # Constants
-    WIDTH = 800
+    WIDTH = 860
     HEIGHT = 800
     CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
     darkblue = "#1f538d"
@@ -47,6 +47,7 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         self._xyz = "XYZ Structure..."
+        self._check_var = tkinter.StringVar(master=self, value="off")
 
         self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
@@ -246,6 +247,24 @@ class App(customtkinter.CTk):
             row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
         )
 
+        self.manyFilesCheck = customtkinter.CTkCheckBox(
+            master=self.rightBlock_frame,
+            width=10,
+            fg_color="green",
+            text="check",
+            variable=self._check_var,
+            onvalue="on",
+            offvalue="off",
+        )
+
+        self.manyFilesCheck.grid(
+            row=6,
+            column=1,
+            padx=(20, 20),
+            pady=(20, 0),
+            sticky="ws",
+        )
+
         self.open_button = customtkinter.CTkButton(
             master=self.rightBlock_frame,
             width=100,
@@ -276,22 +295,11 @@ class App(customtkinter.CTk):
             pady=(20, 0),
             sticky="es",
         )
+
+        self.open_button.tkraise()  # This button on the top of layer
+
         if self._xyz != "XYZ Structure...":
             self.save_button.configure(state="normal")
-
-        self.manyFiles = customtkinter.CTkButton(
-            master=self.rightBlock_frame,
-            width=10,
-            fg_color="green",
-            text="Save",
-        )
-        self.manyFiles.grid(
-            row=6,
-            column=1,
-            padx=(20, 20),
-            pady=(20, 0),
-            sticky="ws",
-        )
 
     def viewButtonFunc(self):
         nproc = str(self.spinbox_1.get())
@@ -308,26 +316,28 @@ class App(customtkinter.CTk):
         self.consoletextbox.configure(state="disabled")
 
     def openXYZfiles(self):
-        _f = filedialog.askopenfilename()
-        o = open(_f)
-        self._xyz = o.readlines()[2:]
-        self._xyz = "".join(self._xyz)
-        o.close()
+        if self._check_var.get() == "off":
+            print(self._check_var.get())
+            _f = filedialog.askopenfilename()
+            o = open(_f)
+            self._xyz = o.readlines()[2:]
+            self._xyz = "".join(self._xyz)
+            o.close()
 
-        nproc = str(self.spinbox_1.get())
-        ram = str(self.spinbox_2.get())
-        charge = str(self.spinbox_3.get())
-        multiplicity = str(self.spinbox_4.get())
-        basis = str(self.spinbox_5.get())
+            nproc = str(self.spinbox_1.get())
+            ram = str(self.spinbox_2.get())
+            charge = str(self.spinbox_3.get())
+            multiplicity = str(self.spinbox_4.get())
+            basis = str(self.spinbox_5.get())
 
-        txt = dft_read(nproc, ram, charge, multiplicity, basis, self._xyz)
+            txt = dft_read(nproc, ram, charge, multiplicity, basis, self._xyz)
 
-        self.consoletextbox.configure(state="normal")
-        self.consoletextbox.delete("0.0", "end")
-        self.consoletextbox.insert("0.0", txt)
-        self.consoletextbox.configure(state="disabled")
+            self.consoletextbox.configure(state="normal")
+            self.consoletextbox.delete("0.0", "end")
+            self.consoletextbox.insert("0.0", txt)
+            self.consoletextbox.configure(state="disabled")
 
-        self.save_button.configure(state="normal")
+            self.save_button.configure(state="normal")
 
     def xyz2gaussian_save(self):
         fileName = filedialog.asksaveasfilename()
