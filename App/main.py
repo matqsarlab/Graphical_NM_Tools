@@ -46,6 +46,8 @@ class App(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
+        self._active_dft_frame = False
+        self._active_dipole_frame = False
         self._xyz = "XYZ Structure..."
         self._check_var = tkinter.StringVar(master=self, value="off")
 
@@ -204,6 +206,122 @@ class App(customtkinter.CTk):
         self.dft_frame.rowconfigure(0, weight=1)
         self.dft_frame.columnconfigure(1, weight=1)
 
+    def DipoleFrame(self):
+        # create dft frame
+        self.dipole_xyz_structure_frame = customtkinter.CTkFrame(
+            master=self, corner_radius=10, fg_color="red"
+        )
+        self.dipole_xyz_structure_frame.grid(row=0, column=1, sticky="nwse")
+
+        # Console TextBox
+        self.consoletextbox = customtkinter.CTkTextbox(
+            self.dipole_xyz_structure_frame, width=250, height=350
+        )
+        self.consoletextbox.grid(
+            row=5,
+            column=0,
+            padx=(20, 20),
+            pady=(10, 20),
+            sticky="wse",
+            columnspan=2,
+        )
+        self.consoletextbox.insert(
+            "0.0",
+            dft_read(xyz=self._xyz),
+        )
+        self.consoletextbox.configure(state="disabled")
+
+        # Left Block
+        self.leftBlock_frame = customtkinter.CTkFrame(
+            master=self.dipole_xyz_structure_frame,
+            corner_radius=10,
+            fg_color="transparent",
+            height=400,
+            width=600,
+        )
+        self.leftBlock_frame.grid(row=0, column=0, sticky="nwse")
+
+        # Buttons +/-
+        self._spinboxN = 0  # row counter for buttons in left block
+        self.spinbox_1 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=1,
+            default_text="Number of processors",
+            default_val=8,
+        )
+
+        self.spinbox_1.grid(
+            padx=20, pady=(50, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
+
+        self.spinbox_2 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=4,
+            default_text="RAM [GB]",
+            default_val=16,
+        )
+        self.spinbox_2.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
+
+        self.spinbox_3 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=1,
+            default_text="Charge",
+            default_val=0,
+        )
+        self.spinbox_3.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
+
+        self.spinbox_4 = FloatSpinbox(
+            self.leftBlock_frame,
+            width=100,
+            step_size=1,
+            default_text="Multiplicity",
+        )
+        self.spinbox_4.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
+
+        self.spinbox_5 = customtkinter.CTkOptionMenu(
+            self.leftBlock_frame, values=["Basis-1", "Basis-2"]
+        )
+        self.spinbox_5.grid(
+            padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+        )
+        self._spinboxN += 1
+
+        # Rigth Block
+        self.rightBlock_frame = customtkinter.CTkFrame(
+            master=self.dipole_xyz_structure_frame,
+            corner_radius=10,
+            fg_color="transparent",
+        )
+        self.rightBlock_frame.grid(row=0, column=1, sticky="nwse")
+
+        # TextBox
+        self.textbox2 = customtkinter.CTkTextbox(
+            self.rightBlock_frame, width=250, height=300
+        )
+        self.textbox2.grid(
+            row=0, column=1, padx=(20, 20), pady=(20, 0), columnspan=2, sticky="ew"
+        )
+        self.textbox2.insert(
+            "0.0",
+            "CTkTextbox\n\n"
+            + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n"
+            * 200,
+        )
+        self.rightBlock_frame.columnconfigure(1, weight=1)
+
     def NavButtons(self):
         # Home button
         self.home_button = customtkinter.CTkButton(
@@ -219,7 +337,7 @@ class App(customtkinter.CTk):
             command=self.home_button_event,
         )
         self.home_button.configure(fg_color=(self.activecolor), state="disabled")
-        self.home_button.grid(row=1, column=0, sticky="ew", padx=10)
+        self.home_button.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 10))
 
         # DFT_Button
         self.dft_button = customtkinter.CTkButton(
@@ -233,7 +351,23 @@ class App(customtkinter.CTk):
             anchor="c",
             command=self.dft_button_event,
         )
-        self.dft_button.grid(row=2, column=0, sticky="ew", padx=10, pady=10)
+        self.dft_button.grid(row=2, column=0, sticky="ew", padx=10, pady=(0, 10))
+
+        # Create XYZ with dipole Button
+        self.dipole_xyz_structure_button = customtkinter.CTkButton(
+            self.navigation_frame,
+            corner_radius=10,
+            height=40,
+            border_spacing=10,
+            text="Create Dipole\nStructures",
+            text_color=("gray10", "gray90"),
+            hover_color=("gray70", "gray30"),
+            anchor="c",
+            command=self.dipole_xyz_structure_button_event,
+        )
+        self.dipole_xyz_structure_button.grid(
+            row=3, column=0, sticky="ew", padx=10, pady=(0, 10)
+        )
 
     def DFTFrame_buttons(self):
 
@@ -245,24 +379,6 @@ class App(customtkinter.CTk):
         )
         self.view_button.grid(
             row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
-        )
-
-        self.manyFilesCheck = customtkinter.CTkCheckBox(
-            master=self.rightBlock_frame,
-            width=10,
-            fg_color="green",
-            text="check",
-            variable=self._check_var,
-            onvalue="on",
-            offvalue="off",
-        )
-
-        self.manyFilesCheck.grid(
-            row=6,
-            column=1,
-            padx=(20, 20),
-            pady=(20, 0),
-            sticky="ws",
         )
 
         self.open_button = customtkinter.CTkButton(
@@ -296,8 +412,6 @@ class App(customtkinter.CTk):
             sticky="es",
         )
 
-        self.open_button.tkraise()  # This button on the top of layer
-
         if self._xyz != "XYZ Structure...":
             self.save_button.configure(state="normal")
 
@@ -316,51 +430,26 @@ class App(customtkinter.CTk):
         self.consoletextbox.configure(state="disabled")
 
     def openXYZfiles(self):
-        if self._check_var.get() == "off":
-            print(self._check_var.get())
-            _f = filedialog.askopenfilename()
-            o = open(_f)
-            self._xyz = o.readlines()[2:]
-            self._xyz = "".join(self._xyz)
-            o.close()
+        _f = filedialog.askopenfilename()
+        o = open(_f)
+        self._xyz = o.readlines()[2:]
+        self._xyz = "".join(self._xyz)
+        o.close()
 
-            nproc = str(self.spinbox_1.get())
-            ram = str(self.spinbox_2.get())
-            charge = str(self.spinbox_3.get())
-            multiplicity = str(self.spinbox_4.get())
-            basis = str(self.spinbox_5.get())
+        nproc = str(self.spinbox_1.get())
+        ram = str(self.spinbox_2.get())
+        charge = str(self.spinbox_3.get())
+        multiplicity = str(self.spinbox_4.get())
+        basis = str(self.spinbox_5.get())
 
-            txt = dft_read(nproc, ram, charge, multiplicity, basis, self._xyz)
+        txt = dft_read(nproc, ram, charge, multiplicity, basis, self._xyz)
 
-            self.consoletextbox.configure(state="normal")
-            self.consoletextbox.delete("0.0", "end")
-            self.consoletextbox.insert("0.0", txt)
-            self.consoletextbox.configure(state="disabled")
+        self.consoletextbox.configure(state="normal")
+        self.consoletextbox.delete("0.0", "end")
+        self.consoletextbox.insert("0.0", txt)
+        self.consoletextbox.configure(state="disabled")
 
-            self.save_button.configure(state="normal")
-        else:
-            print(self._check_var.get())
-            # _f = filedialog.askopenfilename()
-            # o = open(_f)
-            # self._xyz = o.readlines()[2:]
-            # self._xyz = "".join(self._xyz)
-            # o.close()
-
-            # nproc = str(self.spinbox_1.get())
-            # ram = str(self.spinbox_2.get())
-            # charge = str(self.spinbox_3.get())
-            # multiplicity = str(self.spinbox_4.get())
-            # basis = str(self.spinbox_5.get())
-
-            # txt = dft_read(nproc, ram, charge, multiplicity, basis, self._xyz)
-
-            # self.consoletextbox.configure(state="normal")
-            # self.consoletextbox.delete("0.0", "end")
-            # self.consoletextbox.insert("0.0", txt)
-            # self.consoletextbox.configure(state="disabled")
-
-            # self.save_button.configure(state="normal")
-            pass
+        self.save_button.configure(state="normal")
 
     def xyz2gaussian_save(self):
         fileName = filedialog.asksaveasfilename()
@@ -376,6 +465,9 @@ class App(customtkinter.CTk):
         self.dft_button.configure(
             fg_color=(self.activecolor) if name == "DFT" else self.darkblue
         )
+        self.dipole_xyz_structure_button.configure(
+            fg_color=(self.activecolor) if name == "DxyzS" else self.darkblue
+        )
 
         # show selected frame
         if name == "Home":
@@ -385,17 +477,30 @@ class App(customtkinter.CTk):
             self.home_frame.grid_forget()
             self.home_button.configure(state="normal")
         if name == "DFT":
+            self._active_dft_frame = True
             self.DFTFrame()
             self.dft_button.configure(state="disabled")
         else:
-            self.dft_frame.grid_forget()
+            if self._active_dft_frame:
+                self.dft_frame.grid_forget()
             self.dft_button.configure(state="normal")
+        if name == "DxyzS":
+            self._active_dipole_frame = True
+            self.DipoleFrame()
+            self.dipole_xyz_structure_button.configure(state="disabled")
+        else:
+            if self._active_dipole_frame:
+                self.dipole_xyz_structure_frame.grid_forget()
+            self.dipole_xyz_structure_button.configure(state="normal")
 
     def home_button_event(self):
         self.select_frame_by_name("Home")
 
     def dft_button_event(self):
         self.select_frame_by_name("DFT")
+
+    def dipole_xyz_structure_button_event(self):
+        self.select_frame_by_name("DxyzS")
 
 
 if __name__ == "__main__":
