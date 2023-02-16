@@ -1,3 +1,5 @@
+import tkinter
+
 import customtkinter
 
 from Buttons.DFTFrame.buttons import DFTFrame_buttons
@@ -6,6 +8,8 @@ from Static._dft_read import dft_read
 
 
 def DFTFrame(self):
+    self._choose_basis_set = tkinter.StringVar(master=self, value="Choose Basis Set")
+
     # create dft frame
     self.dft_frame = customtkinter.CTkFrame(
         master=self, corner_radius=10, fg_color="transparent"
@@ -91,7 +95,7 @@ def DFTFrame(self):
     self._spinboxN += 1
 
     self.spinbox_5 = customtkinter.CTkOptionMenu(
-        self.leftBlock_frame, values=["Basis-1", "Basis-2"]
+        self.leftBlock_frame, variable=self._choose_basis_set, values=self._basis_sets
     )
     self.spinbox_5.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"

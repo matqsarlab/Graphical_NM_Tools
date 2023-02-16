@@ -27,9 +27,15 @@ def select_frame_by_name(self, name):
         self.dft_button.configure(state="normal")
     if name == "DxyzS":
         self._active_dipole_frame = True
-        self.DipoleFrame()
+        match self._optionmenu_var.get():
+            case 0:
+                self.DipoleFrame()
+            case 1:
+                self.DipoleFrame2()
         self.dipole_xyz_structure_button.configure(state="disabled")
+
     else:
         if self._active_dipole_frame:
             self.dipole_xyz_structure_frame.grid_forget()
         self.dipole_xyz_structure_button.configure(state="normal")
+        # self._optionmenu_var.set(0)

@@ -12,7 +12,7 @@ customtkinter.set_default_color_theme(
 class App(customtkinter.CTk):
     # Constants
     WIDTH = 860
-    HEIGHT = 800
+    HEIGHT = 850
     CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
     darkblue = "#1f538d"
     activecolor = "#184270"
@@ -20,19 +20,32 @@ class App(customtkinter.CTk):
     # Packages Load:
     from Buttons.NavigationFrame.buttons import NavButtons
     from Frames.DFTFrame.frame import DFTFrame
-    from Frames.DipoleFrame.frame import DipoleFrame
+    from Frames.DipoleFrame.frame import DipoleFrame, DipoleFrame2
     from Frames.HomeFrame.frame import HomeFrame
     from Frames.NavigationFrame.frame import NavigationFrame
     from Frames.selector import select_frame_by_name
+    from Static._dft_read import dft_info
 
-    def __init__(self, DFTFrame=DFTFrame, DipoleFrame=DipoleFrame):
+    def __init__(
+        self,
+        DFTFrame=DFTFrame,
+        DipoleFrame=DipoleFrame,
+        DipoleFrame2=DipoleFrame2,
+        dft_info=dft_info,
+    ):
         super().__init__()
         self.__DFTFrame__ = DFTFrame
         self.__DipoleFrame__ = DipoleFrame
+        self.__DipoleFrame2__ = DipoleFrame2
+        self.__InitPath__ = ...
         self._active_dft_frame = False
         self._active_dipole_frame = False
         self._xyz = "XYZ Structure..."
         self._check_var = tkinter.StringVar(master=self, value="off")
+        self._optionmenu_var = tkinter.IntVar(master=self, value=0)  # set initial value
+        self._basis_sets = ["Basis1", "Basis2"]
+        self._name = {}
+        self._consoleText = dft_info()
 
         self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
