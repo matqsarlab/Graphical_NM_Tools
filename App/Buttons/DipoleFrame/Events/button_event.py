@@ -111,38 +111,40 @@ def viewButtonFunc2(self):
 def openToGaussianDir(self):
     path = filedialog.askdirectory(initialdir=self.__InitPath__)
     list_of_files_agree = {}
-    list_of_files_noxyz = {}
+    list_of_files_noxyz = []
 
-    for (dirpath, _, filenames) in os.walk(path):
+    def root_counter(path: str):
+        """calc depth of path"""
+        return len(path.split(os.sep))
+
+    for (dirpath, dirnames, filenames) in os.walk(path):
         for filename in filenames:
+            relpath = os.path.relpath(os.sep.join([dirpath, filename]), path)
             if filename.endswith(".xyz"):
-                name = dirpath.split(path)[-1]
-                list_of_files_agree[name] = os.sep.join([dirpath, filename])
-                print(name)
-                input()
-            else:
-                name = dirpath.split(path)[-1]
-                list_of_files_noxyz[name] = os.sep.join([dirpath, filename])
-                print(dirpath)
-                input()
+                list_of_files_agree[filename] = relpath
 
-    list_of_errors = [
-        i for i in list_of_files_noxyz.keys() if i not in list_of_files_agree.keys()
-    ]
+        for dirname in dirnames:  # There no xyz file check
+            absPath = os.sep.join([dirpath, dirname])  # abs dir path
+            ll = os.listdir(absPath)
+            ans = any([True if i.endswith(".xyz") else False for i in ll])
+            if ans == False:
+                list_of_files_noxyz.append(os.path.relpath(absPath, path))
 
     customtkinter.CTkTextbox.tag_config(
         self.consoletextbox, "agree", foreground="green"
     )
-    customtkinter.CTkTextbox.tag_config(self.consoletextbox, "error", foreground="red")
+    customtkinter.CTkTextbox.tag_config(
+        self.consoletextbox, "warning", foreground="#e6ac00"
+    )
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
     self.consoletextbox.insert("0.0", self._consoleText)
     self.consoletextbox.insert("end", "\n\n")
-    for n in list_of_files_agree.keys():
-        self.consoletextbox.insert("end", f"{n}\t\t xyz files: OK\n", "agree")
+    for n in list_of_files_agree.values():
+        self.consoletextbox.insert("end", f"{n}\t\t\t\t xyz files: OK\n", "agree")
     self.consoletextbox.insert("end", "\n")
-    for n in list_of_errors:
-        self.consoletextbox.insert("end", f"{n}\t\t no xyz files: ERROR\n", "error")
+    for n in list_of_files_noxyz:
+        self.consoletextbox.insert("end", f"{n}\t\t\t ALERT: no xyz files\n", "warning")
     self.consoletextbox.configure(state="disabled")
 
 
