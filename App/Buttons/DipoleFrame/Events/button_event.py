@@ -1,5 +1,6 @@
 import os
 
+import customtkinter
 import numpy as np
 from customtkinter import filedialog
 
@@ -109,29 +110,40 @@ def viewButtonFunc2(self):
 
 def openToGaussianDir(self):
     path = filedialog.askdirectory(initialdir=self.__InitPath__)
-    list_dir = [
-        i for i in os.listdir(path) if not os.path.isfile(os.path.join(path, i))
-    ]
-    self.consoletextbox.configure(state="normal")
-    self.consoletextbox.insert("end", "\n\nSelected Directories:\n" + "_" * 20)
-    self.consoletextbox.insert("end", "\n")
-    for n in list_dir:
-        self.consoletextbox.insert("end", f"{n}\n")
-    self.consoletextbox.insert("end", "_" * 20)
+    list_of_files_agree = {}
+    list_of_files_noxyz = {}
 
-    # # Logic
-    # for ll in list_dir:
-    #     # n1 = path.split("/")[-1]
-    #     # n2 = path.split("/")[-2]
-    #     # f_xyz = [f for f in os.listdir(path) if f.endswith("xyz")][0]
-    #     print(ll)
-    list_of_files = {}
     for (dirpath, _, filenames) in os.walk(path):
         for filename in filenames:
             if filename.endswith(".xyz"):
-                list_of_files[filename] = os.sep.join([dirpath, filename])
-    print(list_of_files)
-    pass
+                name = dirpath.split(path)[-1]
+                list_of_files_agree[name] = os.sep.join([dirpath, filename])
+                print(name)
+                input()
+            else:
+                name = dirpath.split(path)[-1]
+                list_of_files_noxyz[name] = os.sep.join([dirpath, filename])
+                print(dirpath)
+                input()
+
+    list_of_errors = [
+        i for i in list_of_files_noxyz.keys() if i not in list_of_files_agree.keys()
+    ]
+
+    customtkinter.CTkTextbox.tag_config(
+        self.consoletextbox, "agree", foreground="green"
+    )
+    customtkinter.CTkTextbox.tag_config(self.consoletextbox, "error", foreground="red")
+    self.consoletextbox.configure(state="normal")
+    self.consoletextbox.delete("0.0", "end")
+    self.consoletextbox.insert("0.0", self._consoleText)
+    self.consoletextbox.insert("end", "\n\n")
+    for n in list_of_files_agree.keys():
+        self.consoletextbox.insert("end", f"{n}\t\t xyz files: OK\n", "agree")
+    self.consoletextbox.insert("end", "\n")
+    for n in list_of_errors:
+        self.consoletextbox.insert("end", f"{n}\t\t no xyz files: ERROR\n", "error")
+    self.consoletextbox.configure(state="disabled")
 
 
 def gaussianInputCreator(self):
