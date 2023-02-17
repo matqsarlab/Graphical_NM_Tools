@@ -111,6 +111,8 @@ def viewButtonFunc2(self):
 def openToGaussianDir(self):
     path = filedialog.askdirectory(initialdir=self.__InitPath__)
     list_of_files_agree = {}
+    atom_info = {}
+    dft_info = {}
     list_of_files_noxyz = []
 
     def root_counter(path: str):
@@ -119,14 +121,30 @@ def openToGaussianDir(self):
 
     for (dirpath, dirnames, filenames) in os.walk(path):
         for filename in filenames:
-            relpath = os.path.relpath(os.sep.join([dirpath, filename]), path)
             if filename.endswith(".xyz"):
-                list_of_files_agree[filename] = relpath
+                relpath = os.path.relpath(dirpath, path)
+                list_of_files_agree[dirpath] = relpath
+                ati = any(
+                    [True if i == "atom_info" else False for i in os.listdir(dirpath)]
+                )
+                dfti = any(
+                    [True if i == "dft_info" else False for i in os.listdir(dirpath)]
+                )
+                if ati == True:
+                    atom_info[dirpath] = ("atom_info OK", "agree")
+                else:
+                    atom_info[dirpath] = ("atom_info ERROR", "error")
+
+                if dfti == True:
+                    dft_info[dirpath] = ("dft_info OK", "agree")
+                else:
+                    dft_info[dirpath] = ("dft_info ERROR", "error")
+                self.save_button.configure(state="normal")
 
         for dirname in dirnames:  # There no xyz file check
             absPath = os.sep.join([dirpath, dirname])  # abs dir path
-            ll = os.listdir(absPath)
-            ans = any([True if i.endswith(".xyz") else False for i in ll])
+            ld = os.listdir(absPath)
+            ans = any([True if i.endswith(".xyz") else False for i in ld])
             if ans == False:
                 list_of_files_noxyz.append(os.path.relpath(absPath, path))
 
@@ -136,12 +154,20 @@ def openToGaussianDir(self):
     customtkinter.CTkTextbox.tag_config(
         self.consoletextbox, "warning", foreground="#e6ac00"
     )
+    customtkinter.CTkTextbox.tag_config(self.consoletextbox, "error", foreground="red")
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
     self.consoletextbox.insert("0.0", self._consoleText)
     self.consoletextbox.insert("end", "\n\n")
-    for n in list_of_files_agree.values():
-        self.consoletextbox.insert("end", f"{n}\t\t\t\t xyz files: OK\n", "agree")
+    for a, d, direc in zip(
+        atom_info.values(),
+        dft_info.values(),
+        list_of_files_agree.values(),
+    ):
+        self.consoletextbox.insert("end", f"{direc}\t\t\t\t xyz files: OK\n", "agree")
+        self.consoletextbox.insert("end", f"\t\t\t\t {a[0]}\n", a[1])
+        self.consoletextbox.insert("end", f"\t\t\t\t {d[0]}\n", d[1])
+        self.consoletextbox.insert("end", "\n\n", d[1])
     self.consoletextbox.insert("end", "\n")
     for n in list_of_files_noxyz:
         self.consoletextbox.insert("end", f"{n}\t\t\t ALERT: no xyz files\n", "warning")
