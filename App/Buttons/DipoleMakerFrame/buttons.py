@@ -1,11 +1,11 @@
 import customtkinter
 
-from Buttons.DipoleFrame.Events.button_event import (gaussianInputCreator,
-                                                     openSfiles,
-                                                     openToGaussianDir,
-                                                     optionmenu_callback,
-                                                     saveSfiles,
-                                                     viewButtonFunc2)
+from Buttons.DipoleMakerFrame.Events.button_event import (gaussianInputCreator,
+                                                          openSfiles,
+                                                          openToGaussianDir,
+                                                          optionmenu_callback,
+                                                          saveSfiles,
+                                                          viewButtonFunc2)
 
 
 def buttons2(self):
@@ -22,14 +22,14 @@ def buttons2(self):
     self._spinboxN += 1
 
     self.miniframe = customtkinter.CTkFrame(
-        self.dipole_xyz_structure_frame, fg_color="transparent"
+        self.dipole_maker_frame, fg_color="transparent"
     )
     self.miniframe.grid(row=5, column=0, sticky="ws")
     self.chooser1 = customtkinter.CTkRadioButton(
         master=self.miniframe,
         text="Coordinates Creator",
         value=0,
-        variable=self._optionmenu_var,
+        variable=self._optionmenu_dipole_maker,
         command=lambda: optionmenu_callback(self),
     )
     self.chooser1.grid(row=0, column=0, sticky="w", padx=25)
@@ -38,7 +38,7 @@ def buttons2(self):
         master=self.miniframe,
         text="Gaussian Input Creator",
         value=1,
-        variable=self._optionmenu_var,
+        variable=self._optionmenu_dipole_maker,
         command=lambda: optionmenu_callback(self),
     )
     self.chooser2.grid(row=1, column=0, sticky="ws", padx=25, pady=(5, 0))
@@ -94,14 +94,14 @@ def buttons2(self):
 def DipoleFrame_buttons(self):
 
     self.miniframe = customtkinter.CTkFrame(
-        self.dipole_xyz_structure_frame, fg_color="transparent"
+        self.dipole_maker_frame, fg_color="transparent"
     )
     self.miniframe.grid(row=5, column=0, sticky="ws")
     self.chooser1 = customtkinter.CTkRadioButton(
         master=self.miniframe,
         text="Coordinates Creator",
         value=0,
-        variable=self._optionmenu_var,
+        variable=self._optionmenu_dipole_maker,
         command=lambda: optionmenu_callback(self),
     )
     self.chooser1.grid(row=0, column=0, sticky="w", padx=25)
@@ -110,7 +110,7 @@ def DipoleFrame_buttons(self):
         master=self.miniframe,
         text="Gaussian Input Creator",
         value=1,
-        variable=self._optionmenu_var,
+        variable=self._optionmenu_dipole_maker,
         command=lambda: optionmenu_callback(self),
     )
     self.chooser2.grid(row=1, column=0, sticky="ws", padx=25, pady=(5, 0))

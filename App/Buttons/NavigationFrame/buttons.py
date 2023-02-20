@@ -47,3 +47,16 @@ def NavButtons(self):
     self.dipole_xyz_structure_button.grid(
         row=3, column=0, sticky="ew", padx=10, pady=(0, 10)
     )
+    # Create XYZ with dipole Button
+    self.dipole_maker_button = customtkinter.CTkButton(
+        self.navigation_frame,
+        corner_radius=10,
+        height=40,
+        border_spacing=10,
+        text="To powinien byc\nDipol",
+        text_color=("gray10", "gray90"),
+        hover_color=("gray70", "gray30"),
+        anchor="c",
+        command=self.dipole_maker_button_event,
+    )
+    self.dipole_maker_button.grid(row=4, column=0, sticky="ew", padx=10, pady=(0, 10))

@@ -91,7 +91,7 @@ def saveSfiles(self):
 
 
 def optionmenu_callback(self):
-    self.select_frame_by_name("DxyzS")
+    self.select_frame_by_name("dipolemaker")
 
 
 def viewButtonFunc2(self):

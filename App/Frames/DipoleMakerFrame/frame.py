@@ -2,25 +2,25 @@ import tkinter
 
 import customtkinter
 
-from Buttons.DipoleFrame.buttons import DipoleFrame_buttons, buttons2
+from Buttons.DipoleMakerFrame.buttons import DipoleFrame_buttons, buttons2
 from Buttons.spinbox import FloatSpinbox
 from Static._dft_read import dft_info
 
 height = 600
 
 
-def DipoleFrame(self, height=height):
+def DipoleFramex(self, height=height):
     self._structure1 = tkinter.StringVar(master=self, value="Basis set for Structure 1")
     self._structure2 = tkinter.StringVar(master=self, value="Basis set for Structure 2")
     # create dft frame
-    self.dipole_xyz_structure_frame = customtkinter.CTkFrame(
+    self.dipole_maker_frame = customtkinter.CTkFrame(
         master=self, corner_radius=10, fg_color="transparent"
     )
-    self.dipole_xyz_structure_frame.grid(row=0, column=1, sticky="nwse")
+    self.dipole_maker_frame.grid(row=0, column=1, sticky="nwse")
 
     # Console TextBox
     self.consoletextbox = customtkinter.CTkTextbox(
-        self.dipole_xyz_structure_frame, width=250, height=350
+        self.dipole_maker_frame, width=250, height=350
     )
     self.consoletextbox.grid(
         row=7,
@@ -38,14 +38,13 @@ def DipoleFrame(self, height=height):
 
     # Left Block
     self.leftBlock_frame = customtkinter.CTkFrame(
-        master=self.dipole_xyz_structure_frame,
+        master=self.dipole_maker_frame,
         corner_radius=10,
         fg_color="transparent",
         height=height,
         width=600,
     )
     self.leftBlock_frame.grid(row=0, column=0, sticky="nwe")
-    # self.leftBlock_frame.rowconfigure(0, weight=1)
 
     # Buttons +/-
     self._spinboxN = 0  # row counter for buttons in left block
@@ -108,17 +107,10 @@ def DipoleFrame(self, height=height):
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
     self._spinboxN += 1
-    self.spinbox_6 = customtkinter.CTkOptionMenu(
-        self.leftBlock_frame, variable=self._structure2, values=self._basis_sets
-    )
-    self.spinbox_6.grid(
-        padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
-    )
-    self._spinboxN += 1
 
     # Rigth Block
     self.rightBlock_frame = customtkinter.CTkFrame(
-        master=self.dipole_xyz_structure_frame, corner_radius=10, fg_color="transparent"
+        master=self.dipole_maker_frame, corner_radius=10, fg_color="transparent"
     )
     self.rightBlock_frame.grid(row=0, column=1, sticky="nwse")
 
@@ -131,7 +123,7 @@ def DipoleFrame(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "dupa" * 200,
+        "CTkTextbox\n\n" + "dipole" * 200,
     )
     self.rightBlock_frame.columnconfigure(1, weight=1)
 
@@ -139,20 +131,20 @@ def DipoleFrame(self, height=height):
     buttons2(self)
 
     # Constant height and weight for left & right blocks
-    self.dipole_xyz_structure_frame.rowconfigure(0, weight=1)
-    self.dipole_xyz_structure_frame.columnconfigure(1, weight=1)
+    self.dipole_maker_frame.rowconfigure(0, weight=1)
+    self.dipole_maker_frame.columnconfigure(1, weight=1)
 
 
-def DipoleFrame2(self, height=height):
+def DipoleFrame2x(self, height=height):
     # create dft frame
-    self.dipole_xyz_structure_frame = customtkinter.CTkFrame(
+    self.dipole_maker_frame = customtkinter.CTkFrame(
         master=self, corner_radius=10, fg_color="transparent"
     )
-    self.dipole_xyz_structure_frame.grid(row=0, column=1, sticky="nwse")
+    self.dipole_maker_frame.grid(row=0, column=1, sticky="nwse")
 
     # Console TextBox
     self.consoletextbox = customtkinter.CTkTextbox(
-        self.dipole_xyz_structure_frame, width=250, height=350
+        self.dipole_maker_frame, width=250, height=350
     )
     self.consoletextbox.grid(
         row=7,
@@ -170,7 +162,7 @@ def DipoleFrame2(self, height=height):
 
     # Left Block
     self.leftBlock_frame = customtkinter.CTkFrame(
-        master=self.dipole_xyz_structure_frame,
+        master=self.dipole_maker_frame,
         corner_radius=10,
         fg_color="transparent",
         height=height,
@@ -183,7 +175,7 @@ def DipoleFrame2(self, height=height):
 
     # Rigth Block
     self.rightBlock_frame = customtkinter.CTkFrame(
-        master=self.dipole_xyz_structure_frame, corner_radius=10, fg_color="transparent"
+        master=self.dipole_maker_frame, corner_radius=10, fg_color="transparent"
     )
     self.rightBlock_frame.grid(row=0, column=1, sticky="nwse")
 
@@ -196,7 +188,7 @@ def DipoleFrame2(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "dupa" * 200,
+        "CTkTextbox\n\n" + "dipole2 " * 200,
     )
     self.rightBlock_frame.columnconfigure(1, weight=1)
 
@@ -204,5 +196,5 @@ def DipoleFrame2(self, height=height):
     DipoleFrame_buttons(self)
 
     # Constant height and weight for left & right blocks
-    self.dipole_xyz_structure_frame.rowconfigure(0, weight=1)
-    self.dipole_xyz_structure_frame.columnconfigure(1, weight=1)
+    self.dipole_maker_frame.rowconfigure(0, weight=1)
+    self.dipole_maker_frame.columnconfigure(1, weight=1)

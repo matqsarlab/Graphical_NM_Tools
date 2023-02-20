@@ -9,6 +9,9 @@ def select_frame_by_name(self, name):
     self.dipole_xyz_structure_button.configure(
         fg_color=(self.activecolor) if name == "DxyzS" else self.darkblue
     )
+    self.dipole_maker_button.configure(
+        fg_color=(self.activecolor) if name == "dipolemaker" else self.darkblue
+    )
 
     # show selected frame
     if name == "Home":
@@ -38,4 +41,16 @@ def select_frame_by_name(self, name):
         if self._active_dipole_frame:
             self.dipole_xyz_structure_frame.grid_forget()
         self.dipole_xyz_structure_button.configure(state="normal")
-        # self._optionmenu_var.set(0)
+    if name == "dipolemaker":
+        self._active_dipole_maker_frame = True
+        match self._optionmenu_dipole_maker.get():
+            case 0:
+                self.DipoleFramex()
+            case 1:
+                self.DipoleFrame2x()
+        self.dipole_maker_button.configure(state="disabled")
+
+    else:
+        if self._active_dipole_maker_frame:
+            self.dipole_maker_frame.grid_forget()
+        self.dipole_maker_button.configure(state="normal")
