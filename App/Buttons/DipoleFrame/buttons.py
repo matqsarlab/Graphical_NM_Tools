@@ -45,7 +45,7 @@ def buttons2(self):
 
     self.s1 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
-        width=100,
+        width=150,
         text="Structures 1...",
         command=lambda: openSfiles(self, "s1"),
     )
@@ -53,21 +53,21 @@ def buttons2(self):
         row=6,
         column=1,
         padx=(20, 20),
-        pady=(20, 0),
-        sticky="ws",
+        pady=(10, 0),
+        sticky="es",
     )
 
     self.s2 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
-        width=100,
+        width=150,
         text="Structures 2...",
         command=lambda: openSfiles(self, "s2"),
     )
     self.s2.grid(
-        row=6,
+        row=7,
         column=1,
         padx=(20, 20),
-        pady=(20, 0),
+        pady=(10, 0),
         sticky="es",
     )
 

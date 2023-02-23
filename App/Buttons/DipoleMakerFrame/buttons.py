@@ -1,6 +1,7 @@
 import customtkinter
 
-from Buttons.DipoleMakerFrame.Events.button_event import (gaussianInputCreator,
+from Buttons.DipoleMakerFrame.Events.button_event import (dipoleFile,
+                                                          gaussianInputCreator,
                                                           openSfiles,
                                                           openToGaussianDir,
                                                           optionmenu_callback,
@@ -45,29 +46,29 @@ def buttons2(self):
 
     self.s1 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
-        width=100,
-        text="Structures 1...",
-        command=lambda: openSfiles(self, "s1"),
+        width=150,
+        text="Crystal Structure...",
+        command=lambda: openSfiles(self),
     )
     self.s1.grid(
         row=6,
         column=1,
         padx=(20, 20),
-        pady=(20, 0),
-        sticky="ws",
+        pady=(10, 0),
+        sticky="es",
     )
 
     self.s2 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
-        width=100,
-        text="Structures 2...",
-        command=lambda: openSfiles(self, "s2"),
+        width=150,
+        text="Dipole...",
+        command=lambda: dipoleFile(self),
     )
     self.s2.grid(
-        row=6,
+        row=7,
         column=1,
         padx=(20, 20),
-        pady=(20, 0),
+        pady=(10, 0),
         sticky="es",
     )
 

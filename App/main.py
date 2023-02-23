@@ -25,7 +25,7 @@ class App(customtkinter.CTk):
     from Frames.HomeFrame.frame import HomeFrame
     from Frames.NavigationFrame.frame import NavigationFrame
     from Frames.selector import select_frame_by_name
-    from Static._dft_read import dft_info
+    from Static._dft_read import dft_info, dipole_info
 
     def __init__(
         self,

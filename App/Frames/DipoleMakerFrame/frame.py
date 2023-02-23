@@ -4,7 +4,7 @@ import customtkinter
 
 from Buttons.DipoleMakerFrame.buttons import DipoleFrame_buttons, buttons2
 from Buttons.spinbox import FloatSpinbox
-from Static._dft_read import dft_info
+from Static._dft_read import dipole_info
 
 height = 600
 
@@ -32,7 +32,7 @@ def DipoleFramex(self, height=height):
     )
     self.consoletextbox.insert(
         "0.0",
-        dft_info(),
+        dipole_info(),
     )
     self.consoletextbox.configure(state="disabled")
 
