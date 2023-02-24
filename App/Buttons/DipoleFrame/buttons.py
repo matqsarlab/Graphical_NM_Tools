@@ -6,6 +6,7 @@ from Buttons.DipoleFrame.Events.button_event import (gaussianInputCreator,
                                                      optionmenu_callback,
                                                      saveSfiles,
                                                      viewButtonFunc2)
+from Buttons.DipoleMakerFrame.Events.button_event import froze_button
 
 
 def buttons2(self):
@@ -118,7 +119,7 @@ def DipoleFrame_buttons(self):
     self.open_button = customtkinter.CTkButton(
         master=self.rightBlock_frame,
         width=100,
-        fg_color="green",
+        fg_color="#1f538d",
         text="Open...",
         command=lambda: openToGaussianDir(self),
     )
@@ -129,6 +130,17 @@ def DipoleFrame_buttons(self):
         pady=(20, 0),
         sticky="es",
     )
+    self.frozen_box = customtkinter.CTkCheckBox(
+        self.rightBlock_frame,
+        text="Froze",
+        width=50,
+        variable=self._froze,
+        onvalue="on",
+        offvalue="off",
+        command=lambda: froze_button(self),
+    )
+    self.frozen_box.grid(row=6, column=1, sticky="w", padx=(20, 20), pady=(20, 0))
+    self.frozen_box.lower(belowThis=self.open_button)
 
     self.save_button = customtkinter.CTkButton(
         master=self.rightBlock_frame,

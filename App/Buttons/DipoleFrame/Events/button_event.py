@@ -29,15 +29,17 @@ def saveSfiles(self):
             for coor, n in zip(xyz, name):
                 f.write("{}{:>20}{:>13}{:>13}\n".format(n, coor[0], coor[1], coor[2]))
 
-    def atom_info(xyz1, xyz2):
+    def atom_info(xyz1, xyz2, sub_dir1, sub_dir2):
+        num1 = len(xyz1)
+        num2 = len(xyz2)
         with open(os.path.join(dir, sub_dir1, sub_dir2, f"atom_info"), "w") as f:
             f.write(
                 """### Informations about range of atoms in *xyz file
     ### First line  - structer's 1
     ### Second line - structer's 2\n"""
             )
-            f.write(sub_dir1 + f"=1-{len(xyz1)}\n")
-            f.write(sub_dir2 + f"={1+len(xyz1)}-{len(xyz2)}\n")
+            f.write(sub_dir1 + f"=1-{num1}\n")
+            f.write(sub_dir2 + f"={1+num1}-{num1+num2}\n")
         return 1
 
     darkblue = "#1f538d"
@@ -82,7 +84,7 @@ def saveSfiles(self):
                 path = j.split("/")[-1].replace(".xyz", "") + "_" + i.split("/")[-1]
 
             save(xyz_str, name, path)
-            atom_info(xyz_obj1, xyz_obj2)
+            atom_info(xyz_obj1, xyz_obj2, sub_dir1, sub_dir2)
             txt = dft_info(nproc, ram, chk_name, charge, multiplicity, basis1, basis2)
             with open(os.path.join(dir, sub_dir1, sub_dir2, "dft_info"), "w") as f:
                 f.write(txt)
@@ -110,6 +112,7 @@ def viewButtonFunc2(self):
 
 
 def openToGaussianDir(self):
+    self.open_button.configure(fg_color="green")
     path = filedialog.askdirectory(initialdir=self.__InitPath__)
     self.list_of_files_agree = {}
     atom_info = {}
@@ -181,7 +184,7 @@ def openToGaussianDir(self):
         del self.list_of_files_agree[key]
 
 
-def gaussianInputCreator(self, lock=False):
+def gaussianInputCreator(self):
     def block(xyz_coor, atom):
         Q = []
         to_block = xyz_coor[: int(atom.split("-")[1])]
@@ -209,7 +212,7 @@ def gaussianInputCreator(self, lock=False):
             atom_2 = atom_info[4][1 + atom_info[4].index("=") :].replace("\n", "")
             xyz_coor = xyz.readlines()[2:]
 
-            if lock:
+            if self._froze.get() == "on":
                 xyz_coor = block(xyz_coor, atom_1)
 
             idx = [i for i, item in enumerate(dft_info) if re.search("--", item)][0]
@@ -230,7 +233,7 @@ def gaussianInputCreator(self, lock=False):
             com.write("".join(down[: idx_dft[1] - 1]))
             com.write(atom_2 + " " + charge + "\n")
             com.write("".join(down[idx_dft[1] - 1 :]))
-            com.write("\n")
+            com.write("\n\n")
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
     self.consoletextbox.configure(state="disabled")

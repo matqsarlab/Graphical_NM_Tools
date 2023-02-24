@@ -14,7 +14,7 @@ def openSfiles(self):
     self._name = filedialog.askopenfilenames()
     self.__InitPath__ = os.path.dirname(self._name[0])
     self.s1.configure(fg_color="green")
-    if self._name and self._dipole:
+    if self._name != None and self._dipole != None:
         self.save_button.configure(state="normal")
 
 
@@ -22,7 +22,7 @@ def dipoleFile(self):
     self._dipole = filedialog.askopenfilename()
     if self._dipole:
         self.s2.configure(fg_color="green")
-    if self._name and self._dipole:
+    if self._name != None and self._dipole != None:
         self.save_button.configure(state="normal")
 
 
@@ -130,6 +130,7 @@ def viewButtonFunc2(self):
 
 
 def openToGaussianDir(self):
+    self.open_button.configure(fg_color="green")
     path = filedialog.askdirectory(initialdir=self.__InitPath__)
     self.list_of_files_agree = {}
     atom_info = {}
@@ -197,7 +198,7 @@ def openToGaussianDir(self):
         del self.list_of_files_agree[key]
 
 
-def gaussianInputCreator(self, lock=False):
+def gaussianInputCreator(self):
     def block(xyz_coor, atom):
         Q = []
         to_block = xyz_coor[: int(atom.split("-")[1])]
@@ -239,8 +240,8 @@ def gaussianInputCreator(self, lock=False):
                 minus = change_line(charges, 1, -1.0)
                 charges = [plus, minus]
 
-                if lock:
-                    xyz_coor = block(xyz_coor, atom_1)
+                if self._froze.get() == "on":
+                    atoms = block(atoms, atom_1)
 
                 idx = [i for i, item in enumerate(dft_info) if re.search("--", item)][0]
                 up = dft_info[:idx]
@@ -258,4 +259,8 @@ def gaussianInputCreator(self, lock=False):
                 com.write("\n")
                 com.write(atom_1 + " " + charge + "\n")
                 com.write("".join(down))
-                com.write("\n")
+                com.write("\n\n")
+
+
+def froze_button(self):
+    return self._froze.get()
