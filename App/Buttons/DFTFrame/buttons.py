@@ -2,6 +2,7 @@ import customtkinter
 
 from Buttons.DFTFrame.Events.button_event import (openXYZfiles, viewButtonFunc,
                                                   xyz2gaussian_save)
+from Buttons.DipoleFrame.Events.button_event import edit_method
 
 
 def DFTFrame_buttons(self):
@@ -16,6 +17,14 @@ def DFTFrame_buttons(self):
     self.view_button.grid(
         row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
     )
+    self.method = customtkinter.CTkButton(
+        master=self.leftBlock_frame,
+        fg_color="#b36b00",
+        text="Edit",
+        command=lambda: edit_method(self, self._default_method),
+        width=80,
+    )
+    self.method.grid(row=self._spinboxN, column=0, sticky="ws", padx=20, pady=(20, 10))
 
     self.open_button = customtkinter.CTkButton(
         master=self.rightBlock_frame,

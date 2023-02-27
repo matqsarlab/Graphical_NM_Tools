@@ -5,12 +5,12 @@ def dft_read(
     multiplicity="1",
     basis="Basis-1",
     xyz="XYZ structure...",
+    method="",
 ):
     txt = f"""%NProcShared={nproc}
 %mem={ram}gb
 %chk=
-#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
+{method}
 
 test
 {charge} {multiplicity}
@@ -31,12 +31,12 @@ def dft_info(
     multiplicity="1",
     basis1="Basis-1",
     basis2="Basis-2",
+    method="",
 ):
     txt = f"""%NProcShared={nproc}
 %mem={ram}gb
 %chk={name}
-#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-     IOp(6/7=3) opt   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
+{method}
 
 test
 
@@ -56,12 +56,12 @@ def dipole_info(
     charge="0",
     multiplicity="1",
     basis1="Basis-1",
+    method="",
 ):
     txt = f"""%NProcShared={nproc}
 %mem={ram}gb
 %chk={name}
-#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)
+{method}
 
 test
 

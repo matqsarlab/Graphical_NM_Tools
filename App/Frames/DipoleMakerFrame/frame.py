@@ -32,7 +32,7 @@ def DipoleFramex(self, height=height):
     )
     self.consoletextbox.insert(
         "0.0",
-        dipole_info(),
+        dipole_info(method=self._default_method_dipole),
     )
     self.consoletextbox.configure(state="disabled")
 

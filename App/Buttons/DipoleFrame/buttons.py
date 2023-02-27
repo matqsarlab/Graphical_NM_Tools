@@ -1,6 +1,7 @@
 import customtkinter
 
-from Buttons.DipoleFrame.Events.button_event import (gaussianInputCreator,
+from Buttons.DipoleFrame.Events.button_event import (edit_method,
+                                                     gaussianInputCreator,
                                                      openSfiles,
                                                      openToGaussianDir,
                                                      optionmenu_callback,
@@ -20,12 +21,20 @@ def buttons2(self):
     self.view_button.grid(
         row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
     )
+    self.method = customtkinter.CTkButton(
+        master=self.leftBlock_frame,
+        fg_color="#b36b00",
+        text="Edit",
+        command=lambda: edit_method(self, self._default_method),
+        width=80,
+    )
+    self.method.grid(row=self._spinboxN, column=0, sticky="ws", padx=20, pady=(20, 10))
     self._spinboxN += 1
 
     self.miniframe = customtkinter.CTkFrame(
         self.dipole_xyz_structure_frame, fg_color="transparent"
     )
-    self.miniframe.grid(row=5, column=0, sticky="ws")
+    self.miniframe.grid(row=5, column=0, sticky="ws", columnspan=6)
     self.chooser1 = customtkinter.CTkRadioButton(
         master=self.miniframe,
         text="Coordinates Creator",

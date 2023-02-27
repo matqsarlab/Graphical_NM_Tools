@@ -121,7 +121,15 @@ def viewButtonFunc2(self):
     charge = str(self.spinbox_3.get())
     multiplicity = str(self.spinbox_4.get())
     basis1 = str(self.spinbox_5.get())
-    txt = dipole_info(nproc, ram, "<name>", charge, multiplicity, basis1)
+    txt = dipole_info(
+        nproc,
+        ram,
+        "<name>",
+        charge,
+        multiplicity,
+        basis1,
+        method=self._default_method_dipole,
+    )
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
     self.consoletextbox.insert("0.0", txt)

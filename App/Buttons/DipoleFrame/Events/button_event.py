@@ -103,12 +103,39 @@ def viewButtonFunc2(self):
     multiplicity = str(self.spinbox_4.get())
     basis1 = str(self.spinbox_5.get())
     basis2 = str(self.spinbox_6.get())
-    txt = dft_info(nproc, ram, "<name>", charge, multiplicity, basis1, basis2)
+    txt = dft_info(
+        nproc, ram, "<name>", charge, multiplicity, basis1, basis2, self._default_method
+    )
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
     self.consoletextbox.insert("0.0", txt)
     self.consoletextbox.configure(state="disabled")
     self._consoleText = txt
+
+
+def edit_method(self, method):
+    def save(text, window):
+        match method:
+            case self._default_method:
+                self._default_method = text.get("0.0", "end")
+            case _:
+                self._default_method_dipole = text.get("0.0", "end")
+        window.destroy()
+
+    new = customtkinter.CTkToplevel(self)
+    new.geometry("750x250")
+    new.title("Method")
+    txt = customtkinter.CTkTextbox(new)
+    txt.insert("0.0", method)
+    txt.pack(fill="both", expand=True)
+    button = customtkinter.CTkButton(
+        new,
+        text="Save & Exit",
+        fg_color="green",
+        hover_color=("#00b300", "#009900"),
+        command=lambda: save(txt, new),
+    )
+    button.pack(fill="both", expand=True)
 
 
 def openToGaussianDir(self):
@@ -119,10 +146,6 @@ def openToGaussianDir(self):
     dft_info = {}
     list_of_files_noxyz = []
     errors = set()
-
-    def root_counter(path: str):
-        """calc depth of path"""
-        return len(path.split(os.sep))
 
     for (dirpath, dirnames, filenames) in os.walk(path):
         for filename in filenames:

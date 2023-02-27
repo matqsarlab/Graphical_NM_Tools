@@ -30,7 +30,7 @@ def DFTFrame(self):
     )
     self.consoletextbox.insert(
         "0.0",
-        dft_read(xyz=self._xyz),
+        dft_read(xyz=self._xyz, method=self._default_method),
     )
     self.consoletextbox.configure(state="disabled")
 

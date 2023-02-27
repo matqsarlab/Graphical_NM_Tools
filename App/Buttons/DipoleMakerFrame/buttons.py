@@ -1,5 +1,6 @@
 import customtkinter
 
+from Buttons.DipoleFrame.Events.button_event import edit_method
 from Buttons.DipoleMakerFrame.Events.button_event import (dipoleFile,
                                                           froze_button,
                                                           gaussianInputCreator,
@@ -21,6 +22,14 @@ def buttons2(self):
     self.view_button.grid(
         row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)
     )
+    self.method = customtkinter.CTkButton(
+        master=self.leftBlock_frame,
+        fg_color="#b36b00",
+        text="Edit",
+        command=lambda: edit_method(self, self._default_method_dipole),
+        width=80,
+    )
+    self.method.grid(row=self._spinboxN, column=0, sticky="ws", padx=20, pady=(20, 10))
     self._spinboxN += 1
 
     self.miniframe = customtkinter.CTkFrame(

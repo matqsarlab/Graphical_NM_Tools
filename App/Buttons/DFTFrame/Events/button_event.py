@@ -10,7 +10,15 @@ def viewButtonFunc(self):
     multiplicity = str(self.spinbox_4.get())
     basis = str(self.spinbox_5.get())
 
-    txt = dft_read(nproc, ram, charge, multiplicity, basis, xyz=self._xyz)
+    txt = dft_read(
+        nproc,
+        ram,
+        charge,
+        multiplicity,
+        basis,
+        xyz=self._xyz,
+        method=self._default_method,
+    )
 
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")

@@ -58,6 +58,10 @@ class App(customtkinter.CTk):
         self._name = {}
         self._consoleText = dft_info()
         self._froze = tkinter.StringVar(master=self, value="off")
+        self._default_method = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
+    IOp(6/7=3) opt   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)"""
+        self._default_method_dipole = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
+    DIPOLE"""
 
         self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")

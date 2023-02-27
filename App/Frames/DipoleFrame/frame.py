@@ -32,7 +32,7 @@ def DipoleFrame(self, height=height):
     )
     self.consoletextbox.insert(
         "0.0",
-        dft_info(),
+        dft_info(method=self._default_method),
     )
     self.consoletextbox.configure(state="disabled")
 
