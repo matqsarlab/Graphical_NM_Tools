@@ -104,7 +104,15 @@ def saveSfiles(self):
         save(xyz_horizontal2, name, path_horizontal2)
 
         atom_info(xyz_obj1, xyz_rotated)
-        txt = dipole_info(nproc, ram, chk_name, charge, multiplicity, basis1)
+        txt = dipole_info(
+            nproc,
+            ram,
+            chk_name,
+            charge,
+            multiplicity,
+            basis1,
+            self._default_method_dipole,
+        )
         with open(os.path.join(dir, sub_dir1, "dft_info"), "w") as f:
             f.write(txt)
 

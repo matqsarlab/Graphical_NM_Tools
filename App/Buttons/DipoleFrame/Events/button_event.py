@@ -85,7 +85,16 @@ def saveSfiles(self):
 
             save(xyz_str, name, path)
             atom_info(xyz_obj1, xyz_obj2, sub_dir1, sub_dir2)
-            txt = dft_info(nproc, ram, chk_name, charge, multiplicity, basis1, basis2)
+            txt = dft_info(
+                nproc,
+                ram,
+                chk_name,
+                charge,
+                multiplicity,
+                basis1,
+                basis2,
+                self._default_method,
+            )
             with open(os.path.join(dir, sub_dir1, sub_dir2, "dft_info"), "w") as f:
                 f.write(txt)
 
@@ -135,6 +144,7 @@ def edit_method(self, method):
         hover_color=("#00b300", "#009900"),
         command=lambda: save(txt, new),
     )
+    new.bind("<Escape>", lambda _: save(txt, new))
     button.pack(fill="both", expand=True)
 
 

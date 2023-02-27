@@ -61,8 +61,7 @@ class App(customtkinter.CTk):
         self._default_method = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
     IOp(6/7=3) opt   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)"""
         self._default_method_dipole = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-    DIPOLE"""
-
+     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)"""
         self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
 
