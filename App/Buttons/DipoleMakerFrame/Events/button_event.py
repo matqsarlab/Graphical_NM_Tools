@@ -52,9 +52,6 @@ def saveSfiles(self):
         return data
 
     darkblue = "#1f538d"
-    self.s1.configure(fg_color=darkblue)
-    self.s2.configure(fg_color=darkblue)
-    self.save_button.configure(state="disabled")
 
     nproc = str(self.spinbox_1.get())
     ram = str(self.spinbox_2.get())
@@ -64,59 +61,65 @@ def saveSfiles(self):
 
     dir = filedialog.askdirectory(initialdir=self.__InitPath__)
     path = str()
-    for i in self._name:
-        obj1 = Structure1_translate(i)
-        xyz_obj1 = obj1.translate_center_to_zero
+    if dir != "":
+        for i in self._name:
+            obj1 = Structure1_translate(i)
+            xyz_obj1 = obj1.translate_center_to_zero
 
-        obj2 = Structure2_add_rotate(i, self._dipole)
-        xyz_obj2 = obj2.rotate_2D_object
-        name = np.append(obj1.get_name, obj2.get_name)
-        chk_name = path.split(".")[0]  # checkpoint name
+            obj2 = Structure2_add_rotate(i, self._dipole)
+            xyz_obj2 = obj2.rotate_2D_object
+            name = np.append(obj1.get_name, obj2.get_name)
+            chk_name = path.split(".")[0]  # checkpoint name
 
-        xyz_rotated = np.append(xyz_obj1, xyz_obj2[0], axis=0).round(decimals=4)
-        xyz_horizontal = np.append(xyz_obj1, xyz_obj2[1], axis=0).round(decimals=4)
-        xyz_vertical = np.append(xyz_obj1, xyz_obj2[2], axis=0).round(decimals=4)
-        xyz_horizontal2 = np.append(xyz_obj1, xyz_obj2[3], axis=0).round(decimals=4)
+            xyz_rotated = np.append(xyz_obj1, xyz_obj2[0], axis=0).round(decimals=4)
+            xyz_horizontal = np.append(xyz_obj1, xyz_obj2[1], axis=0).round(decimals=4)
+            xyz_vertical = np.append(xyz_obj1, xyz_obj2[2], axis=0).round(decimals=4)
+            xyz_horizontal2 = np.append(xyz_obj1, xyz_obj2[3], axis=0).round(decimals=4)
 
-        xyz_rotated = to_xyz(xyz_rotated)
-        xyz_horizontal = to_xyz(xyz_horizontal)
-        xyz_vertical = to_xyz(xyz_vertical)
-        xyz_horizontal2 = to_xyz(xyz_horizontal2)
+            xyz_rotated = to_xyz(xyz_rotated)
+            xyz_horizontal = to_xyz(xyz_horizontal)
+            xyz_vertical = to_xyz(xyz_vertical)
+            xyz_horizontal2 = to_xyz(xyz_horizontal2)
 
-        sub_dir1 = i.split("/")[-1].replace(".xyz", "")
-        if not os.path.isdir(os.path.join(dir, sub_dir1)):
-            os.mkdir(os.path.join(dir, sub_dir1))
-        sub_dir2 = self._dipole.split("/")[-1].replace(".xyz", "")
+            sub_dir1 = i.split("/")[-1].replace(".xyz", "")
+            if not os.path.isdir(os.path.join(dir, sub_dir1)):
+                os.mkdir(os.path.join(dir, sub_dir1))
+            sub_dir2 = self._dipole.split("/")[-1].replace(".xyz", "")
 
-        if "/" in i or self._dipole:
-            path = (
-                i.split("/")[-1].replace(".xyz", "") + "_" + self._dipole.split("/")[-1]
+            if "/" in i or self._dipole:
+                path = (
+                    i.split("/")[-1].replace(".xyz", "")
+                    + "_"
+                    + self._dipole.split("/")[-1]
+                )
+
+            path_rotated = path.replace(".xyz", "_vertical.xyz")
+            path_horizontal = path.replace(".xyz", "_horizontal.xyz")
+            path_vertcial = path.replace(".xyz", "_vertical2.xyz")
+            path_horizontal2 = path.replace(".xyz", "_horizontal2.xyz")
+
+            save(xyz_rotated, name, path_rotated)
+            save(xyz_horizontal, name, path_horizontal)
+            save(xyz_vertical, name, path_vertcial)
+            save(xyz_horizontal2, name, path_horizontal2)
+
+            atom_info(xyz_obj1, xyz_rotated)
+            txt = dipole_info(
+                nproc,
+                ram,
+                chk_name,
+                charge,
+                multiplicity,
+                basis1,
+                self._default_method_dipole,
             )
+            with open(os.path.join(dir, sub_dir1, "dft_info"), "w") as f:
+                f.write(txt)
 
-        path_rotated = path.replace(".xyz", "_vertical.xyz")
-        path_horizontal = path.replace(".xyz", "_horizontal.xyz")
-        path_vertcial = path.replace(".xyz", "_vertical2.xyz")
-        path_horizontal2 = path.replace(".xyz", "_horizontal2.xyz")
-
-        save(xyz_rotated, name, path_rotated)
-        save(xyz_horizontal, name, path_horizontal)
-        save(xyz_vertical, name, path_vertcial)
-        save(xyz_horizontal2, name, path_horizontal2)
-
-        atom_info(xyz_obj1, xyz_rotated)
-        txt = dipole_info(
-            nproc,
-            ram,
-            chk_name,
-            charge,
-            multiplicity,
-            basis1,
-            self._default_method_dipole,
-        )
-        with open(os.path.join(dir, sub_dir1, "dft_info"), "w") as f:
-            f.write(txt)
-
-    self._name = {}
+        self._name = {}
+        self.save_button.configure(state="disabled")
+        self.s1.configure(fg_color=darkblue)
+        self.s2.configure(fg_color=darkblue)
 
 
 def optionmenu_callback(self):
@@ -276,6 +279,9 @@ def gaussianInputCreator(self):
                 com.write(atom_1 + " " + charge + "\n")
                 com.write("".join(down))
                 com.write("\n\n")
+    self.consoletextbox.configure(state="normal")
+    self.consoletextbox.delete("0.0", "end")
+    self.consoletextbox.configure(state="disabled")
 
 
 def froze_button(self):

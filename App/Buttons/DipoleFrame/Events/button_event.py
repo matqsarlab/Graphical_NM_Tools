@@ -43,9 +43,6 @@ def saveSfiles(self):
         return 1
 
     darkblue = "#1f538d"
-    self.s1.configure(fg_color=darkblue)
-    self.s2.configure(fg_color=darkblue)
-    self.save_button.configure(state="disabled")
 
     nproc = str(self.spinbox_1.get())
     ram = str(self.spinbox_2.get())
@@ -56,49 +53,53 @@ def saveSfiles(self):
 
     dir = filedialog.askdirectory(initialdir=self.__InitPath__)
     path = str()
-    for i in self._name["s1"]:
-        for j in self._name["s2"]:
-            obj1 = Structure1_translate(i)
-            xyz_obj1 = obj1.translate_center_to_zero
+    if dir != "":
+        for i in self._name["s1"]:
+            for j in self._name["s2"]:
+                obj1 = Structure1_translate(i)
+                xyz_obj1 = obj1.translate_center_to_zero
 
-            obj2 = Structure2_add_rotate(i, j)
-            xyz_obj2 = obj2.rotate_object
+                obj2 = Structure2_add_rotate(i, j)
+                xyz_obj2 = obj2.rotate_object
 
-            name = np.append(obj1.get_name, obj2.get_name)
-            chk_name = path.split(".")[0]  # checkpoint name
+                name = np.append(obj1.get_name, obj2.get_name)
+                chk_name = path.split(".")[0]  # checkpoint name
 
-            xyz_str = np.append(xyz_obj1, xyz_obj2, axis=0).round(decimals=4)
+                xyz_str = np.append(xyz_obj1, xyz_obj2, axis=0).round(decimals=4)
 
-            xyz_str = np.array(
-                ["{:.5f}".format(line) for line in xyz_str.flatten()]
-            ).reshape(xyz_str.shape)
+                xyz_str = np.array(
+                    ["{:.5f}".format(line) for line in xyz_str.flatten()]
+                ).reshape(xyz_str.shape)
 
-            sub_dir1 = i.split("/")[-1].replace(".xyz", "")
-            if not os.path.isdir(os.path.join(dir, sub_dir1)):
-                os.mkdir(os.path.join(dir, sub_dir1))
-            sub_dir2 = j.split("/")[-1].replace(".xyz", "")
-            if not os.path.isdir(os.path.join(dir, sub_dir1, sub_dir2)):
-                os.mkdir(os.path.join(dir, sub_dir1, sub_dir2))
+                sub_dir1 = i.split("/")[-1].replace(".xyz", "")
+                if not os.path.isdir(os.path.join(dir, sub_dir1)):
+                    os.mkdir(os.path.join(dir, sub_dir1))
+                sub_dir2 = j.split("/")[-1].replace(".xyz", "")
+                if not os.path.isdir(os.path.join(dir, sub_dir1, sub_dir2)):
+                    os.mkdir(os.path.join(dir, sub_dir1, sub_dir2))
 
-            if "/" in i or j:
-                path = j.split("/")[-1].replace(".xyz", "") + "_" + i.split("/")[-1]
+                if "/" in i or j:
+                    path = j.split("/")[-1].replace(".xyz", "") + "_" + i.split("/")[-1]
 
-            save(xyz_str, name, path)
-            atom_info(xyz_obj1, xyz_obj2, sub_dir1, sub_dir2)
-            txt = dft_info(
-                nproc,
-                ram,
-                chk_name,
-                charge,
-                multiplicity,
-                basis1,
-                basis2,
-                self._default_method,
-            )
-            with open(os.path.join(dir, sub_dir1, sub_dir2, "dft_info"), "w") as f:
-                f.write(txt)
+                save(xyz_str, name, path)
+                atom_info(xyz_obj1, xyz_obj2, sub_dir1, sub_dir2)
+                txt = dft_info(
+                    nproc,
+                    ram,
+                    chk_name,
+                    charge,
+                    multiplicity,
+                    basis1,
+                    basis2,
+                    self._default_method,
+                )
+                with open(os.path.join(dir, sub_dir1, sub_dir2, "dft_info"), "w") as f:
+                    f.write(txt)
 
-    self._name = {}
+        self._name = {}
+        self.s1.configure(fg_color=darkblue)
+        self.s2.configure(fg_color=darkblue)
+        self.save_button.configure(state="disabled")
 
 
 def optionmenu_callback(self):
