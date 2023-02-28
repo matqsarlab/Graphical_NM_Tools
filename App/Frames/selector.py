@@ -12,6 +12,9 @@ def select_frame_by_name(self, name):
     self.dipole_maker_button.configure(
         fg_color=(self.activecolor) if name == "dipolemaker" else self.darkblue
     )
+    self.descriptors_button.configure(
+        fg_color=(self.activecolor) if name == "descriptors" else self.darkblue
+    )
 
     # show selected frame
     if name == "Home":
@@ -54,3 +57,15 @@ def select_frame_by_name(self, name):
         if self._active_dipole_maker_frame:
             self.dipole_maker_frame.grid_forget()
         self.dipole_maker_button.configure(state="normal")
+    if name == "descriptors":
+        self._active_descriptors_frame = True
+        match self._optionmenu_descriptors.get():
+            case 0:
+                self.DescriptorsFrame()
+            case 1:
+                self.DescriptorsFrame2()
+        self.descriptors_button.configure(state="disabled")
+    else:
+        if self._active_descriptors_frame:
+            self.descriptors_frame.grid_forget()
+        self.descriptors_button.configure(state="normal")

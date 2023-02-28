@@ -60,3 +60,17 @@ def NavButtons(self):
         command=self.dipole_maker_button_event,
     )
     self.dipole_maker_button.grid(row=4, column=0, sticky="ew", padx=10, pady=(0, 10))
+
+    # Descriptors
+    self.descriptors_button = customtkinter.CTkButton(
+        self.navigation_frame,
+        corner_radius=10,
+        height=40,
+        border_spacing=10,
+        text="Descriptors",
+        text_color=("gray10", "gray90"),
+        hover_color=("gray70", "gray30"),
+        anchor="c",
+        command=self.descriptors_button_event,
+    )
+    self.descriptors_button.grid(row=5, column=0, sticky="ew", padx=10, pady=(0, 10))

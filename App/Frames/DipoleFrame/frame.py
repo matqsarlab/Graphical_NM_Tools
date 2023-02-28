@@ -45,7 +45,6 @@ def DipoleFrame(self, height=height):
         width=600,
     )
     self.leftBlock_frame.grid(row=0, column=0, sticky="nwe")
-    # self.leftBlock_frame.rowconfigure(0, weight=1)
 
     # Buttons +/-
     self._spinboxN = 0  # row counter for buttons in left block
