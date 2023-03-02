@@ -9,10 +9,10 @@ from Static.calc_descriptors import Calc
 from Static.create_console import insert_txt
 
 
-def viewButtonFunc(self):
+def viewButtonFunc(self, *args):
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
-    insert_txt(self)
+    insert_txt(self, args)
     self.consoletextbox.configure(state="disabled")
 
 
@@ -74,6 +74,10 @@ def openSfiles(self, name):
         self.consoletextbox.insert(
             "end", f"\n\n{fname}\t\t\t it's .log file: OK\n", "agree"
         )
+        self._line_txt_descriptors_console = (
+            f"\n\n{fname}\t\t\t it's .log file: OK\n",
+            "agree",
+        )
         self.consoletextbox.insert("end", "\n\n")
     else:
         customtkinter.CTkTextbox.tag_config(
@@ -84,6 +88,10 @@ def openSfiles(self, name):
         self.consoletextbox.insert("0.0", temp)
         self.consoletextbox.insert(
             "end", f"\n\n{fname}\t\t\t it's not .log file\n", "warning"
+        )
+        self._line_txt_descriptors_console = (
+            f"\n\n{fname}\t\t\t it's not .log file\n",
+            "warning",
         )
         self.consoletextbox.insert("end", "\n\n")
     self.consoletextbox.configure(state="disabled")

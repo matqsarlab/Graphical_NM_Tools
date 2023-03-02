@@ -39,6 +39,7 @@ class App(customtkinter.CTk):
         self._xyz = "XYZ Structure..."
         self._dipole = None
         self._name = None
+        self._line_txt_descriptors_console = None
         self._check_var = tkinter.StringVar(master=self, value="off")
         self._optionmenu_var = tkinter.IntVar(master=self, value=0)  # set initial value
         self._optionmenu_dipole_maker = tkinter.IntVar(

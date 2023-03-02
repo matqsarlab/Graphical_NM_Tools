@@ -69,3 +69,4 @@ def select_frame_by_name(self, name):
         if self._active_descriptors_frame:
             self.descriptors_frame.grid_forget()
         self.descriptors_button.configure(state="normal")
+        self._line_txt_descriptors_console = None

@@ -15,7 +15,7 @@ def DescriptorsFrame_buttons(self):
         master=self.leftBlock_frame,
         fg_color="green",
         text="View",
-        command=lambda: viewButtonFunc(self),
+        command=lambda: viewButtonFunc(self, self._line_txt_descriptors_console),
     )
     self.view_button.grid(
         row=self._spinboxN, column=0, sticky="es", padx=20, pady=(20, 10)

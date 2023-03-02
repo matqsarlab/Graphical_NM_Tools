@@ -129,7 +129,7 @@ def edit_method(self, method):
             case self._default_method:
                 self._default_method = text.get("0.0", "end")
             case self._descriptors_atom_indexes:
-                self._descriptors_atom_indexes = text.get("0.0", "end")
+                self._descriptors_atom_indexes = text.get("0.0", "end-1c")
             case _:
                 self._default_method_dipole = text.get("0.0", "end")
         window.destroy()
