@@ -127,11 +127,11 @@ def edit_method(self, method):
     def save(text, window):
         match method:
             case self._default_method:
-                self._default_method = text.get("0.0", "end")
+                self._default_method = text.get("0.0", "end-1c")
             case self._descriptors_atom_indexes:
                 self._descriptors_atom_indexes = text.get("0.0", "end-1c")
             case _:
-                self._default_method_dipole = text.get("0.0", "end")
+                self._default_method_dipole = text.get("0.0", "end-1c")
         window.destroy()
 
     new = customtkinter.CTkToplevel(self)
@@ -142,7 +142,7 @@ def edit_method(self, method):
     txt.pack(fill="both", expand=True)
     button = customtkinter.CTkButton(
         new,
-        text="Save & Exit",
+        text="Save & Exit (Esc)",
         fg_color="green",
         hover_color=("#00b300", "#009900"),
         command=lambda: save(txt, new),

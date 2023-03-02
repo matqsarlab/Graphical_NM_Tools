@@ -16,6 +16,38 @@ class Calc:
                 yield i
 
     @property
+    def find_line(self) -> tuple:
+        x = self.gen
+
+        def selector():
+
+            _ = [next(x) for _ in range(1)]
+
+            charges_list = []
+            for j in x:
+
+                if "Sum of" in j or "====" in j:
+                    break
+
+                charges_list.append(j)
+            return charges_list
+
+        mulliken_ = []
+        esp_ = []
+        nbo_ = []
+
+        for i in x:
+
+            if "Mulliken charges:" in i:
+                mulliken_ = selector()
+            if "ESP charges:" in i:
+                esp_ = selector()
+            if "Charge         Core      Valence    Rydberg      Total" in i:
+                nbo_ = selector()
+
+        return mulliken_, esp_, nbo_
+
+    @property
     def standard_orientation(self):
 
         xyz = []
@@ -34,6 +66,33 @@ class Calc:
 
                     xyz.append(j)
         return xyz
+
+    @property
+    def charges_table(self):
+        def create_table(kind_charge):
+            table = []
+            for i in kind_charge:
+                s = i.split()
+                table.append("{:>3}{:>10}{:>13}".format(s[0], s[1], s[2]))
+            return table
+
+        mulliken_ = create_table(self.find_line[0])
+        esp_ = create_table(self.find_line[1])
+        nbo_ = create_table(self.find_line[2])
+
+        return mulliken_, esp_, nbo_
+
+    def selectAtoms(self, list_of_spec_atoms, number, list_of_atoms, split_num=0):
+        lista = self.charges_table[number]
+        for i in list_of_spec_atoms:
+            for j in lista:
+                if str(i) == j.split()[split_num]:
+                    list_of_atoms.append(j)
+        return list_of_atoms
+
+    def arthmetic(self, list_with_atoms):
+        result = list(map(lambda x: float(x.split()[-1]), list_with_atoms))
+        return np.mean(result) / self.area
 
     @property
     def area(self):

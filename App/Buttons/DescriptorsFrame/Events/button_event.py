@@ -99,6 +99,7 @@ def openSfiles(self, name):
 
 
 def saveSfiles(self):
+    result = {}
     darkblue = "#1f538d"
 
     dir_path = filedialog.askdirectory(initialdir=self.__InitPath__)
@@ -111,10 +112,20 @@ def saveSfiles(self):
     n_atoms = str(self.spinbox_5.get())
 
     lines = self._descriptors_atom_indexes.split("\n")
-    a1 = lines[1].replace("a1 = ", "").replace("\n", "").replace(" ", "")
-    b1 = lines[2].replace("a2 = ", "").replace("\n", "").replace(" ", "")
-    a2 = lines[3].replace("b1 = ", "").replace("\n", "").replace(" ", "")
-    b2 = lines[4].replace("b2 = ", "").replace("\n", "").replace(" ", "")
+    atom_idx = (
+        lines[0].replace("atom indexes = ", "").replace("\n", "").replace(" ", "")
+    )
+    atom_idx = atom_idx.split(",")
+    a1 = lines[1].split("=")[1]
+    b1 = lines[2].split("=")[1]
+    a2 = lines[3].split("=")[1]
+    b2 = lines[4].split("=")[1]
 
     instance = Calc(file, a1, a2, b1, b2)
-    print(instance.area)
+
+    for e, k in enumerate(("mulliken", "esp", "nbo")):
+        split_num = 1 if k == "nbo" else 0
+        res = instance.selectAtoms(atom_idx, e, [], split_num=split_num)
+        result[k] = instance.arthmetic(res)
+
+    print(result)

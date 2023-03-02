@@ -1,11 +1,9 @@
 import customtkinter
 
 from Buttons.DescriptorsFrame.Events.button_event import (openSfiles,
-                                                          openXYZfiles,
                                                           optionmenu_callback,
                                                           saveSfiles,
-                                                          viewButtonFunc,
-                                                          xyz2gaussian_save)
+                                                          viewButtonFunc)
 from Buttons.DipoleFrame.Events.button_event import edit_method
 
 
