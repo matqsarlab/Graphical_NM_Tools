@@ -105,11 +105,13 @@ def saveSfiles(self):
     dir_path = filedialog.askdirectory(initialdir=self.__InitPath__)
     file = self._name["descriptor"]
 
-    n_rot_bond = str(self.spinbox_1.get())
-    n_gropu = str(self.spinbox_2.get())
-    n_pair_donor = str(self.spinbox_3.get())
-    sp2_carb = str(self.spinbox_4.get())
-    n_atoms = str(self.spinbox_5.get())
+    buttons = {
+        "n_rot_bond": self.spinbox_1.get(),
+        "n_gropu": self.spinbox_2.get(),
+        "n_pair_donor": self.spinbox_3.get(),
+        "sp2_carb": self.spinbox_4.get(),
+        "n_atoms": self.spinbox_5.get(),
+    }
 
     lines = self._descriptors_atom_indexes.split("\n")
     atom_idx = (
@@ -121,11 +123,25 @@ def saveSfiles(self):
     a2 = lines[3].split("=")[1]
     b2 = lines[4].split("=")[1]
 
-    instance = Calc(file, a1, a2, b1, b2)
+    if dir_path != "":
+        instance = Calc(file, a1, a2, b1, b2)
+        area = instance.area
 
-    for e, k in enumerate(("mulliken", "esp", "nbo")):
-        split_num = 1 if k == "nbo" else 0
-        res = instance.selectAtoms(atom_idx, e, [], split_num=split_num)
-        result[k] = instance.arthmetic(res)
+        for e, k in enumerate(("mulliken", "esp", "nbo")):
+            split_num = 1 if k == "nbo" else 0
+            res = instance.selectAtoms(atom_idx, e, [], split_num=split_num)
+            result[k] = instance.arthmetic(res)
+        for k in buttons:
+            result[k] = buttons[k] / area
 
-    print(result)
+        with open(os.path.join(dir_path, "descriptors.qsarlab"), "w") as f:
+            for k in result:
+                f.write(f"{k} / A^2 = {result[k]}")
+                f.write("\n")
+
+        # customtkinter.CTkTextbox.tag_config(
+        #     self.consoletextbox, "agree", foreground="green"
+        # )
+        self.consoletextbox.configure(state="normal")
+        self.consoletextbox.insert("end", "Done!!!", "agree")
+        self.consoletextbox.configure(state="disabled")
