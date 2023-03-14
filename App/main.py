@@ -48,7 +48,50 @@ class App(customtkinter.CTk):
         self._optionmenu_descriptors = tkinter.IntVar(
             master=self, value=0
         )  # set initial value
-        self._basis_sets = ["Basis1", "Basis2"]
+        self._basis_sets = [
+            "3-21G",
+            "6-21G",
+            "6-21G*",
+            "6-21G**",
+            "4-31G",
+            "4-31G*",
+            "4-31G**",
+            "6-31G",
+            "6-311G",
+            "D95",
+            "D95V",
+            "SHC",
+            "SHC*",
+            "CEP-4G",
+            "CEP-4G*",
+            "CEP-31G",
+            "CEP-31G*",
+            "CEP-121G",
+            "CEP-121G*",
+            "LanL2MB",
+            "LanL2DZ",
+            "SDD, SDDAll",
+            "cc-pVDZ",
+            "cc-pVTZ",
+            "cc-pVQZ",
+            "cc-pV5Z",
+            "cc-pV6Z",
+            "SV",
+            "SVP",
+            "TZV",
+            "TZVP",
+            "QZVP",
+            "Def2",
+            "MidiX",
+            "EPR-II",
+            "EPR-III",
+            "UGBS",
+            "MTSmall",
+            "DGDZVP",
+            "DGDZVP2",
+            "DGTZVP",
+            "CBSB7",
+        ]
         self._name = {}
         self._consoleText = dft_info()
         self._froze = tkinter.StringVar(master=self, value="off")
