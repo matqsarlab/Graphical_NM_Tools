@@ -37,6 +37,9 @@ class App(customtkinter.CTk):
         self._active_dipole_maker_frame = False
         self._active_descriptors_frame = False
         self._xyz = "XYZ Structure..."
+        self._choose_pseudo_potential = tkinter.StringVar(
+            master=self, value="Pseudo Potential"
+        )
         self._dipole = None
         self._name = None
         self._line_txt_descriptors_console = None
@@ -92,6 +95,7 @@ class App(customtkinter.CTk):
             "DGTZVP",
             "CBSB7",
         ]
+        self._pseudopotential = ["LanL2DZ", "LANL1", "LANL2", "--"]
         self._name = {}
         self._consoleText = dft_info()
         self._froze = tkinter.StringVar(master=self, value="off")

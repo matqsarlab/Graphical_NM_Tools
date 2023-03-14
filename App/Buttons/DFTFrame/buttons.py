@@ -11,7 +11,6 @@ def DFTFrame_buttons(self):
         master=self.leftBlock_frame,
         fg_color="green",
         text="View",
-        # command=self.viewButtonFunc,
         command=lambda: viewButtonFunc(self),
     )
     self.view_button.grid(

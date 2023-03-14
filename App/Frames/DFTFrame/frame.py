@@ -30,7 +30,11 @@ def DFTFrame(self):
     )
     self.consoletextbox.insert(
         "0.0",
-        dft_read(xyz=self._xyz, method=self._default_method),
+        dft_read(
+            xyz=self._xyz,
+            method=self._default_method,
+            pseudo=self._choose_pseudo_potential.get(),
+        ),
     )
     self.consoletextbox.configure(state="disabled")
 
@@ -98,6 +102,16 @@ def DFTFrame(self):
         self.leftBlock_frame, variable=self._choose_basis_set, values=self._basis_sets
     )
     self.spinbox_5.grid(
+        padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+    )
+    self._spinboxN += 1
+
+    self.spinbox_6 = customtkinter.CTkOptionMenu(
+        self.leftBlock_frame,
+        variable=self._choose_pseudo_potential,
+        values=self._pseudopotential,
+    )
+    self.spinbox_6.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
     self._spinboxN += 1

@@ -9,6 +9,7 @@ def viewButtonFunc(self):
     charge = str(self.spinbox_3.get())
     multiplicity = str(self.spinbox_4.get())
     basis = str(self.spinbox_5.get())
+    pseudo = str(self.spinbox_6.get())
 
     txt = dft_read(
         nproc,
@@ -18,6 +19,7 @@ def viewButtonFunc(self):
         basis,
         xyz=self._xyz,
         method=self._default_method,
+        pseudo=pseudo,
     )
 
     self.consoletextbox.configure(state="normal")

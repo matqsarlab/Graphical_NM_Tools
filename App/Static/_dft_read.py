@@ -6,21 +6,43 @@ def dft_read(
     basis="Basis-1",
     xyz="XYZ structure...",
     method="",
+    pseudo="Pseudo Potential",
 ):
-    txt = f"""%NProcShared={nproc}
+    n_line_xyz = len(xyz.split("\n"))
+    if pseudo == "Pseudo Potential" or pseudo == "--":
+        return f"""%NProcShared={nproc}
 %mem={ram}gb
 %chk=
 {method}
 
 test
-{charge} {multiplicity}
 
+{charge} {multiplicity}
 {xyz}
 
+1-{n_line_xyz} 0
 {basis}
 ****
+
 """
-    return txt
+    return f"""%NProcShared={nproc}
+%mem={ram}gb
+%chk=
+{method}
+
+test
+
+{charge} {multiplicity}
+{xyz}
+
+1-{n_line_xyz} 0
+{basis}
+****
+
+1-{n_line_xyz} 0
+{pseudo}
+
+"""
 
 
 def dft_info(
