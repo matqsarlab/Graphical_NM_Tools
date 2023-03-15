@@ -112,6 +112,7 @@ def saveSfiles(self):
                 multiplicity,
                 basis1,
                 self._default_method_dipole,
+                pseudo=self._choose_pseudo_potential.get(),
             )
             with open(os.path.join(dir, sub_dir1, "dft_info"), "w") as f:
                 f.write(txt)
@@ -132,6 +133,7 @@ def viewButtonFunc2(self):
     charge = str(self.spinbox_3.get())
     multiplicity = str(self.spinbox_4.get())
     basis1 = str(self.spinbox_5.get())
+    pseudo = str(self.spinbox_6.get())
     txt = dipole_info(
         nproc,
         ram,
@@ -140,6 +142,7 @@ def viewButtonFunc2(self):
         multiplicity,
         basis1,
         method=self._default_method_dipole,
+        pseudo=pseudo,
     )
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
@@ -264,11 +267,13 @@ def gaussianInputCreator(self):
 
                 idx = [i for i, item in enumerate(dft_info) if re.search("--", item)][0]
                 up = dft_info[:idx]
+
                 down = dft_info[1 + idx :]
+                if "pseudo=" in down[-1]:
+                    down[-1] = down[-1].replace("pseudo=", f"{atom_1} 0\n")
 
                 idx_chk = [i for i, item in enumerate(up) if "%chk" in item][0]
                 up[idx_chk] = up[idx_chk].replace("\n", f"{f_xyz.split('.')[0]}\n")
-                charge = up[-1][0]
 
             with open(os.path.join(path, f_xyz.replace("xyz", "com")), "w") as com:
                 com.write("".join(up))
@@ -276,9 +281,10 @@ def gaussianInputCreator(self):
                 com.write("\n")
                 com.write("".join(charges))
                 com.write("\n")
-                com.write(atom_1 + " " + charge + "\n")
+                com.write(atom_1 + " " + "0" + "\n")
                 com.write("".join(down))
                 com.write("\n\n")
+
     self.consoletextbox.configure(state="normal")
     self.consoletextbox.delete("0.0", "end")
     self.consoletextbox.configure(state="disabled")

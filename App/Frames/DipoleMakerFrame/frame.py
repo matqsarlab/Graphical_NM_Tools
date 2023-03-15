@@ -108,6 +108,16 @@ def DipoleFramex(self, height=height):
     )
     self._spinboxN += 1
 
+    self.spinbox_6 = customtkinter.CTkOptionMenu(
+        self.leftBlock_frame,
+        variable=self._choose_pseudo_potential,
+        values=self._pseudopotential,
+    )
+    self.spinbox_6.grid(
+        padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
+    )
+    self._spinboxN += 1
+
     # Rigth Block
     self.rightBlock_frame = customtkinter.CTkFrame(
         master=self.dipole_maker_frame, corner_radius=10, fg_color="transparent"

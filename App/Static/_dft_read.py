@@ -8,7 +8,7 @@ def dft_read(
     method="",
     pseudo="Pseudo Potential",
 ):
-    n_line_xyz = len(xyz.split("\n"))
+    n_line_xyz = len(xyz.split("\n")) - 1
     if pseudo == "Pseudo Potential" or pseudo == "--":
         return f"""%NProcShared={nproc}
 %mem={ram}gb
@@ -79,8 +79,10 @@ def dipole_info(
     multiplicity="1",
     basis1="Basis-1",
     method="",
+    pseudo="Pseudo Potential",
 ):
-    txt = f"""%NProcShared={nproc}
+    if pseudo == "Pseudo Potential" or pseudo == "--":
+        return f"""%NProcShared={nproc}
 %mem={ram}gb
 %chk={name}
 {method}
@@ -90,5 +92,20 @@ test
 {charge} {multiplicity}
 -------------------------
 {basis1}
-****"""
-    return txt
+****
+
+"""
+    return f"""%NProcShared={nproc}
+%mem={ram}gb
+%chk={name}
+{method}
+
+test
+
+{charge} {multiplicity}
+-------------------------
+{basis1}
+****
+
+pseudo={pseudo}
+"""
