@@ -69,7 +69,7 @@ def saveSfiles(self):
             obj2 = Structure2_add_rotate(i, self._dipole)
             xyz_obj2 = obj2.rotate_2D_object
             name = np.append(obj1.get_name, obj2.get_name)
-            chk_name = path.split(".")[0]  # checkpoint name
+            chk_name = ""
 
             xyz_rotated = np.append(xyz_obj1, xyz_obj2[0], axis=0).round(decimals=4)
             xyz_horizontal = np.append(xyz_obj1, xyz_obj2[1], axis=0).round(decimals=4)
@@ -273,7 +273,9 @@ def gaussianInputCreator(self):
                     down[-1] = down[-1].replace("pseudo=", f"{atom_1} 0\n")
 
                 idx_chk = [i for i, item in enumerate(up) if "%chk" in item][0]
+                print(up[idx_chk])
                 up[idx_chk] = up[idx_chk].replace("\n", f"{f_xyz.split('.')[0]}\n")
+                print(up[idx_chk])
 
             with open(os.path.join(path, f_xyz.replace("xyz", "com")), "w") as com:
                 com.write("".join(up))
