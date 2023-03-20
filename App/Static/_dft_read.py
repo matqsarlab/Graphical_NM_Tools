@@ -1,6 +1,7 @@
 def dft_read(
     nproc="8",
     ram="16",
+    check_f="<default>",
     charge="0",
     multiplicity="1",
     basis="Basis-1",
@@ -12,14 +13,13 @@ def dft_read(
     if pseudo == "Pseudo Potential" or pseudo == "--":
         return f"""%NProcShared={nproc}
 %mem={ram}gb
-%chk=
+%chk={check_f}
 {method}
 
 test
 
 {charge} {multiplicity}
 {xyz}
-
 1-{n_line_xyz} 0
 {basis}
 ****
@@ -27,14 +27,13 @@ test
 """
     return f"""%NProcShared={nproc}
 %mem={ram}gb
-%chk=
+%chk={check_f}
 {method}
 
 test
 
 {charge} {multiplicity}
 {xyz}
-
 1-{n_line_xyz} 0
 {basis}
 ****

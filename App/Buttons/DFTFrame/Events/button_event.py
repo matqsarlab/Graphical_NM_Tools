@@ -1,4 +1,4 @@
-from customtkinter import filedialog
+from customtkinter import filedialog, os
 
 from Static._dft_read import dft_read
 
@@ -10,10 +10,15 @@ def viewButtonFunc(self):
     multiplicity = str(self.spinbox_4.get())
     basis = str(self.spinbox_5.get())
     pseudo = str(self.spinbox_6.get())
+    if self._files_DFT:
+        check_name = os.path.basename(self._files_DFT[0]).split(".")[0]
+    else:
+        check_name = "base_name"
 
     txt = dft_read(
         nproc,
         ram,
+        check_name,
         charge,
         multiplicity,
         basis,
@@ -29,15 +34,39 @@ def viewButtonFunc(self):
 
 
 def xyz2gaussian_save(self):
-    fileName = filedialog.asksaveasfilename()
-    txt = self.consoletextbox.get("0.0", "end")
-    with open(fileName, "w") as f:
-        f.write(txt)
+    dirName = filedialog.askdirectory(initialdir=self.__InitPath__)
+
+    nproc = str(self.spinbox_1.get())
+    ram = str(self.spinbox_2.get())
+    charge = str(self.spinbox_3.get())
+    multiplicity = str(self.spinbox_4.get())
+    basis = str(self.spinbox_5.get())
+
+    for element in self._files_DFT:
+        check_name = os.path.basename(element).split(".")[0]
+        o = open(element)
+        self._xyz = o.readlines()[2:]
+        self._xyz = "".join(self._xyz)
+        o.close()
+
+        txt = dft_read(
+            nproc,
+            ram,
+            check_name,
+            charge,
+            multiplicity,
+            basis,
+            self._xyz,
+            self._default_method,
+        )
+
+        with open(os.path.join(dirName, check_name + ".com"), "w") as f:
+            f.write(txt)
 
 
 def openXYZfiles(self):
-    _f = filedialog.askopenfilename()
-    o = open(_f)
+    self._files_DFT = filedialog.askopenfilenames()
+    o = open(self._files_DFT[0])
     self._xyz = o.readlines()[2:]
     self._xyz = "".join(self._xyz)
     o.close()
@@ -47,9 +76,17 @@ def openXYZfiles(self):
     charge = str(self.spinbox_3.get())
     multiplicity = str(self.spinbox_4.get())
     basis = str(self.spinbox_5.get())
+    check_name = os.path.basename(self._files_DFT[0]).split(".")[0]
 
     txt = dft_read(
-        nproc, ram, charge, multiplicity, basis, self._xyz, self._default_method
+        nproc,
+        ram,
+        check_name,
+        charge,
+        multiplicity,
+        basis,
+        self._xyz,
+        self._default_method,
     )
 
     self.consoletextbox.configure(state="normal")
@@ -58,3 +95,5 @@ def openXYZfiles(self):
     self.consoletextbox.configure(state="disabled")
 
     self.save_button.configure(state="normal")
+
+    self.__InitPath__ = os.path.dirname(self._files_DFT[0])

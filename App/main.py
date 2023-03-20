@@ -51,6 +51,7 @@ class App(customtkinter.CTk):
         self._optionmenu_descriptors = tkinter.IntVar(
             master=self, value=0
         )  # set initial value
+        self._files_DFT = ""
         self._basis_sets = [
             "3-21G",
             "6-21G",
@@ -100,7 +101,7 @@ class App(customtkinter.CTk):
         self._consoleText = dft_info()
         self._froze = tkinter.StringVar(master=self, value="off")
         self._default_method = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-    IOp(6/7=3) opt   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)"""
+     IOp(6/7=3) symm=loose  int=(grid=ultrafine) scrf=(solvent=water) pop=(mk,nbo)"""
         self._default_method_dipole = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
      IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)"""
         self._descriptors_atom_indexes = "atom indexes = \na1 = \na2 = \nb1 = \nb2 = "
