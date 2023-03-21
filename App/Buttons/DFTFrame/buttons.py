@@ -3,6 +3,7 @@ import customtkinter
 from Buttons.DFTFrame.Events.button_event import (openXYZfiles, viewButtonFunc,
                                                   xyz2gaussian_save)
 from Buttons.DipoleFrame.Events.button_event import edit_method
+from Buttons.DipoleMakerFrame.Events.button_event import froze_button
 
 
 def DFTFrame_buttons(self):
@@ -39,6 +40,17 @@ def DFTFrame_buttons(self):
         pady=(20, 0),
         sticky="es",
     )
+    self.frozen_box = customtkinter.CTkCheckBox(
+        self.rightBlock_frame,
+        text="Froze",
+        width=50,
+        variable=self._froze,
+        onvalue="on",
+        offvalue="off",
+        command=lambda: froze_button(self),
+    )
+    self.frozen_box.grid(row=6, column=1, sticky="w", padx=(20, 20), pady=(20, 0))
+    self.frozen_box.lower(belowThis=self.open_button)
 
     self.save_button = customtkinter.CTkButton(
         master=self.rightBlock_frame,

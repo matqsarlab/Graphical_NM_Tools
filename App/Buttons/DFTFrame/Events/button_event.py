@@ -3,6 +3,16 @@ from customtkinter import filedialog, os
 from Static._dft_read import dft_read
 
 
+def __block__(xyz):
+    res = []
+    for line in xyz:
+        spl = line.split()
+        res.append(
+            "{}{:>8}{:>12}{:>13}{:>13}\n".format(spl[0], "-1", spl[1], spl[2], spl[3])
+        )
+    return res
+
+
 def viewButtonFunc(self):
     nproc = str(self.spinbox_1.get())
     ram = str(self.spinbox_2.get())
@@ -41,11 +51,14 @@ def xyz2gaussian_save(self):
     charge = str(self.spinbox_3.get())
     multiplicity = str(self.spinbox_4.get())
     basis = str(self.spinbox_5.get())
+    pseudo = str(self.spinbox_6.get())
 
     for element in self._files_DFT:
         check_name = os.path.basename(element).split(".")[0]
         o = open(element)
         self._xyz = o.readlines()[2:]
+        if self._froze.get() == "on":
+            self._xyz = __block__(self._xyz)
         self._xyz = "".join(self._xyz)
         o.close()
 
@@ -58,6 +71,7 @@ def xyz2gaussian_save(self):
             basis,
             self._xyz,
             self._default_method,
+            pseudo=pseudo,
         )
 
         with open(os.path.join(dirName, check_name + ".com"), "w") as f:
@@ -65,9 +79,12 @@ def xyz2gaussian_save(self):
 
 
 def openXYZfiles(self):
+
     self._files_DFT = filedialog.askopenfilenames()
     o = open(self._files_DFT[0])
     self._xyz = o.readlines()[2:]
+    if self._froze.get() == "on":
+        self._xyz = __block__(self._xyz)
     self._xyz = "".join(self._xyz)
     o.close()
 
