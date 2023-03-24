@@ -103,7 +103,7 @@ class App(customtkinter.CTk):
         self._default_method = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
      IOp(6/7=3) symm=loose  int=(grid=ultrafine) scrf=(solvent=water) pop=(mk,nbo)"""
         self._default_method_dipole = """#p b3lyp gen SCF=(xqc,Tight,intrep,NoVarAcc,Maxcycle=512) GFInput
-     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine) scrf=(solvent=water)"""
+     IOp(6/7=3) charge   iop(1/6=100)  symm=loose  int=(grid=ultrafine)"""
         self._descriptors_atom_indexes = "atom indexes = \na1 = \na2 = \nb1 = \nb2 = "
         self.title("QSAR LApp")
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
