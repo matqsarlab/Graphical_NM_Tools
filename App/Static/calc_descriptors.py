@@ -100,18 +100,18 @@ class Calc:
 
         for i in xyz:
             line = i.split()
-            if self.a1 == line[0]:
-                self.a1 = line[3:]
-            if self.b1 == line[0]:
-                self.b1 = line[3:]
-            if self.a2 == line[0]:
-                self.a2 = line[3:]
-            if self.b2 == line[0]:
-                self.b2 = line[3:]
+            if self.a1.split()[0] == line[0]:
+                a1 = line[3:]
+                a1 = np.array(a1).astype(float)
+            if self.b1.split()[0] == line[0]:
+                b1 = line[3:]
+                b1 = np.array(b1).astype(float)
+            if self.a2.split()[0] == line[0]:
+                a2 = line[3:]
+                a2 = np.array(a2).astype(float)
+            if self.b2.split()[0] == line[0]:
+                b2 = line[3:]
+                b2 = np.array(b2).astype(float)
 
-        a1 = np.array(self.a1).astype(float)
-        a2 = np.array(self.a2).astype(float)
-        b1 = np.array(self.b1).astype(float)
-        b2 = np.array(self.b2).astype(float)
         area = np.linalg.norm(np.subtract(a1, a2)) * np.linalg.norm(np.subtract(b1, b2))
         return area
