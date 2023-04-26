@@ -7,6 +7,7 @@ from customtkinter import filedialog
 from Static._dft_read import dft_read
 from Static.calc_descriptors import Calc
 from Static.create_console import insert_txt
+from Static.uncoder import uncoder
 
 
 def viewButtonFunc(self, *args):
@@ -117,7 +118,8 @@ def saveSfiles(self):
     atom_idx = (
         lines[0].replace("atom indexes = ", "").replace("\n", "").replace(" ", "")
     )
-    atom_idx = atom_idx.split(",")
+    atom_idx = uncoder(atom_idx)
+    print(atom_idx)
     a1 = lines[1].split("=")[1]
     b1 = lines[2].split("=")[1]
     a2 = lines[3].split("=")[1]
