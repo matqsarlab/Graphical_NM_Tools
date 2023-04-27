@@ -119,10 +119,9 @@ def saveSfiles(self):
         lines[0].replace("atom indexes = ", "").replace("\n", "").replace(" ", "")
     )
     atom_idx = uncoder(atom_idx)
-    print(atom_idx)
     a1 = lines[1].split("=")[1]
-    b1 = lines[2].split("=")[1]
-    a2 = lines[3].split("=")[1]
+    a2 = lines[2].split("=")[1]
+    b1 = lines[3].split("=")[1]
     b2 = lines[4].split("=")[1]
 
     if dir_path != "":

@@ -113,5 +113,6 @@ class Calc:
                 b2 = line[3:]
                 b2 = np.array(b2).astype(float)
 
-        area = np.linalg.norm(np.subtract(a1, a2)) * np.linalg.norm(np.subtract(b1, b2))
+        # area = np.linalg.norm(np.subtract(a1, a2)) * np.linalg.norm(np.subtract(b1, b2))
+        area = abs(np.linalg.norm(np.cross(np.subtract(a1, a2), np.subtract(b1, b2))))
         return area
