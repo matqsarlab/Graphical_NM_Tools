@@ -108,10 +108,10 @@ def saveSfiles(self):
 
     buttons = {
         "n_rot_bond": self.spinbox_1.get(),
-        "n_gropu": self.spinbox_2.get(),
-        "n_pair_donor": self.spinbox_3.get(),
-        "sp2_carb": self.spinbox_4.get(),
-        "n_atoms": self.spinbox_5.get(),
+        "molecular roughness": self.spinbox_2.get(),
+        "n_atoms": self.spinbox_3.get(),
+        "n_pair_donor": self.spinbox_4.get(),
+        "sp2_carb": self.spinbox_5.get(),
     }
 
     lines = self._descriptors_atom_indexes.split("\n")
@@ -139,10 +139,9 @@ def saveSfiles(self):
             for k in result:
                 f.write(f"{k} / A^2 = {result[k]}")
                 f.write("\n")
+            f.write(f"Area = {area} A^2")
+            f.write("\n")
 
-        # customtkinter.CTkTextbox.tag_config(
-        #     self.consoletextbox, "agree", foreground="green"
-        # )
         self.consoletextbox.configure(state="normal")
         self.consoletextbox.insert("end", "Done!!!", "agree")
         self.consoletextbox.configure(state="disabled")

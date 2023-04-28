@@ -47,7 +47,7 @@ def DescriptorsFrame(self, height=height):
         self.leftBlock_frame,
         width=100,
         step_size=1,
-        default_text="Molecular roughness ",
+        default_text="Molecular roughness",
         default_val=0,
     )
 
