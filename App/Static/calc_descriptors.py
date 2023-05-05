@@ -38,7 +38,7 @@ class Calc:
 
         for i in x:
 
-            if "Mulliken charges:" in i:
+            if "Mulliken charges:" in i or "Mulliken charges and spin densities:" in i:
                 mulliken_ = selector()
             if "ESP charges:" in i:
                 esp_ = selector()
