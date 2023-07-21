@@ -121,7 +121,7 @@ def DescriptorsFrame(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "dupa" * 200,
+        "CTkTextbox\n\n" + "Descriptors Terminal...",
     )
     self.rightBlock_frame.columnconfigure(1, weight=1)
 
@@ -186,7 +186,7 @@ def DescriptorsFrame2(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "dupa" * 200,
+        "CTkTextbox\n\n" + "",
     )
     self.rightBlock_frame.columnconfigure(1, weight=1)
 

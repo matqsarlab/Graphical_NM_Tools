@@ -56,7 +56,7 @@ def buttons2(self):
     self.s1 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
         width=150,
-        text="Structures 1...",
+        text="Materials...",
         command=lambda: openSfiles(self, "s1"),
     )
     self.s1.grid(
@@ -70,7 +70,7 @@ def buttons2(self):
     self.s2 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
         width=150,
-        text="Structures 2...",
+        text="Molecules...",
         command=lambda: openSfiles(self, "s2"),
     )
     self.s2.grid(

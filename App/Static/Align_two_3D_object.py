@@ -116,4 +116,4 @@ class Structure2_add_rotate(Structure1_translate):
             xyz_horizontal + v - [0, 5, 0],
             xyz_vertical + v + [0, -6.5, 0],
             xyz_horizontal_2 + v - [0, 5, 0],
-        )
+        )  # oddalenie o 5A wzgledem najdalej wysunietego punktu na osi X, przy zalozeniu, ze dipol ma 3A dlugosci (polowa to 1.5A)

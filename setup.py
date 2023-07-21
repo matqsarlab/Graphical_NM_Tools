@@ -5,6 +5,6 @@ setup(
     version="1.0",
     description="Python Distribution Utilities",
     author="maT",
-    author_email="mat@mat",
+    author_email="m.balicki@qsarlab.com",
     packages=["Static", "Frames", "Buttons"],
 )

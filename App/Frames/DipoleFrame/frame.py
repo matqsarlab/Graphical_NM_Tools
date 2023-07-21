@@ -130,7 +130,7 @@ def DipoleFrame(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "dupa" * 200,
+        "CTkTextbox\n\n" + "M-M Terminal 1...",
     )
     self.rightBlock_frame.columnconfigure(1, weight=1)
 
@@ -195,7 +195,7 @@ def DipoleFrame2(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "dupa" * 200,
+        "CTkTextbox\n\n" + "M-M Terminal 2...",
     )
     self.rightBlock_frame.columnconfigure(1, weight=1)
 

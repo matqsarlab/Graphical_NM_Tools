@@ -57,7 +57,7 @@ def buttons2(self):
     self.s1 = customtkinter.CTkButton(
         master=self.rightBlock_frame,
         width=150,
-        text="Crystal Structure...",
+        text="Material Structure...",
         command=lambda: openSfiles(self),
     )
     self.s1.grid(
