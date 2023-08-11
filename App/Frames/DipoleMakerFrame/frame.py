@@ -1,17 +1,16 @@
 import tkinter
 
 import customtkinter
-
 from Buttons.DipoleMakerFrame.buttons import DipoleFrame_buttons, buttons2
 from Buttons.spinbox import FloatSpinbox
 from Static._dft_read import dipole_info
+from Static.tooltips import BasisSet, Charge, Multiplicity, NProc, Pseudo, Ram
 
 height = 600
 
 
 def DipoleFramex(self, height=height):
-    self._structure1 = tkinter.StringVar(master=self, value="Basis set for Structure 1")
-    self._structure2 = tkinter.StringVar(master=self, value="Basis set for Structure 2")
+    self._structure1 = tkinter.StringVar(master=self, value="Basis set for Material")
     # create dft frame
     self.dipole_maker_frame = customtkinter.CTkFrame(
         master=self, corner_radius=10, fg_color="transparent"
@@ -60,6 +59,7 @@ def DipoleFramex(self, height=height):
     self.spinbox_1.grid(
         padx=20, pady=(50, 0), row=self._spinboxN, column=0, sticky="we"
     )
+    NProc().tooltip(button=self.spinbox_1)
     self._spinboxN += 1
 
     self.spinbox_2 = FloatSpinbox(
@@ -72,6 +72,7 @@ def DipoleFramex(self, height=height):
     self.spinbox_2.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
+    Ram().tooltip(button=self.spinbox_2)
     self._spinboxN += 1
 
     self.spinbox_3 = FloatSpinbox(
@@ -84,6 +85,7 @@ def DipoleFramex(self, height=height):
     self.spinbox_3.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
+    Charge().tooltip(button=self.spinbox_3)
     self._spinboxN += 1
 
     self.spinbox_4 = FloatSpinbox(
@@ -95,6 +97,7 @@ def DipoleFramex(self, height=height):
     self.spinbox_4.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
+    Multiplicity().tooltip(button=self.spinbox_4)
     self._spinboxN += 1
 
     self.spinbox_5 = customtkinter.CTkOptionMenu(
@@ -106,6 +109,7 @@ def DipoleFramex(self, height=height):
     self.spinbox_5.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
+    BasisSet(switcher="s1").tooltip(button=self.spinbox_5)
     self._spinboxN += 1
 
     self.spinbox_6 = customtkinter.CTkOptionMenu(
@@ -116,6 +120,7 @@ def DipoleFramex(self, height=height):
     self.spinbox_6.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
+    Pseudo().tooltip(button=self.spinbox_6)
     self._spinboxN += 1
 
     # Rigth Block
