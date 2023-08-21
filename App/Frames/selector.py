@@ -58,12 +58,13 @@ def select_frame_by_name(self, name):
             self.dipole_maker_frame.grid_forget()
         self.dipole_maker_button.configure(state="normal")
     if name == "descriptors":
-        self._active_descriptors_frame = True
-        match self._optionmenu_descriptors.get():
-            case 0:
-                self.DescriptorsFrame()
-            case 1:
-                self.DescriptorsFrame2()
+        # self._active_descriptors_frame = True
+        # match self._optionmenu_descriptors.get():
+        #     case 0:
+        #         self.DescriptorsFrame()
+        #     case 1:
+        #         self.DescriptorsFrame2()
+        self.DescriptorsFrame()
         self.descriptors_button.configure(state="disabled")
     else:
         if self._active_descriptors_frame:

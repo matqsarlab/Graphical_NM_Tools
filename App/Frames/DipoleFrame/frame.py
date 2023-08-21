@@ -4,7 +4,7 @@ import customtkinter
 from Buttons.DipoleFrame.buttons import DipoleFrame_buttons, buttons2
 from Buttons.spinbox import FloatSpinbox
 from Static._dft_read import dft_info
-from Static.tooltips import BasisSet, Charge, Multiplicity, NProc, Ram
+from Static.tooltips import BasisSet, GeneralButtons
 
 height = 600
 
@@ -60,7 +60,7 @@ def DipoleFrame(self, height=height):
     self.spinbox_1.grid(
         padx=20, pady=(50, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    NProc().tooltip(button=self.spinbox_1)
+    GeneralButtons(button="nproc").tooltip(button=self.spinbox_1)
     self._spinboxN += 1
 
     self.spinbox_2 = FloatSpinbox(
@@ -73,7 +73,7 @@ def DipoleFrame(self, height=height):
     self.spinbox_2.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    Ram().tooltip(button=self.spinbox_2)
+    GeneralButtons(button="ram").tooltip(button=self.spinbox_2)
     self._spinboxN += 1
 
     self.spinbox_3 = FloatSpinbox(
@@ -86,7 +86,7 @@ def DipoleFrame(self, height=height):
     self.spinbox_3.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    Charge().tooltip(button=self.spinbox_3)
+    GeneralButtons(button="charge").tooltip(button=self.spinbox_3)
     self._spinboxN += 1
 
     self.spinbox_4 = FloatSpinbox(
@@ -98,7 +98,7 @@ def DipoleFrame(self, height=height):
     self.spinbox_4.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    Multiplicity().tooltip(button=self.spinbox_4)
+    GeneralButtons(button="multiplicity").tooltip(button=self.spinbox_4)
     self._spinboxN += 1
 
     self.spinbox_5 = customtkinter.CTkOptionMenu(

@@ -19,8 +19,7 @@ class App(customtkinter.CTk):
 
     # Packages Load:
     from Buttons.NavigationFrame.buttons import NavButtons
-    from Frames.DescriptorsFrame.frame import (DescriptorsFrame,
-                                               DescriptorsFrame2)
+    from Frames.DescriptorsFrame.frame import DescriptorsFrame
     from Frames.DFTFrame.frame import DFTFrame
     from Frames.DipoleFrame.frame import DipoleFrame, DipoleFrame2
     from Frames.DipoleMakerFrame.frame import DipoleFrame2x, DipoleFramex

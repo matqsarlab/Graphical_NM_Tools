@@ -15,24 +15,35 @@ class My_Tooltip(ABC):
         return ToolTip(button, msg=lambda: self.text(), delay=0.3)
 
 
-class Ram(My_Tooltip):
+class GeneralButtons(My_Tooltip):
+    def __init__(self, button="") -> None:
+        super().__init__()
+        self.button = button
+
     def text(self):
-        return "Set RAM value [GB] for Gaussian input file."
-
-
-class NProc(My_Tooltip):
-    def text(self):
-        return "Set number of processor for Gaussian input file."
-
-
-class Charge(My_Tooltip):
-    def text(self):
-        return "Set charge of system for Gaussian input file."
-
-
-class Multiplicity(My_Tooltip):
-    def text(self):
-        return "Set multiplicity of system for Gaussian input file."
+        match self.button:
+            case "nproc":
+                return "Set number of processor for Gaussian input file."
+            case "ram":
+                return "Set RAM value [GB] for Gaussian input file."
+            case "charge":
+                return "Set charge of system for Gaussian input file."
+            case "multiplicity":
+                return "Set multiplicity of system for Gaussian input file."
+            case "nrotbonds":
+                return "Set a number of rotable bonds in selected structure."
+            case "roughness":
+                return (
+                    "Set a number of chemical groups on surface in selected structure."
+                )
+            case "natoms":
+                return "Set a number of atoms in selected structure."
+            case "nlonepair":
+                return (
+                    "Set a number of lone electronic pair donor in selected structure."
+                )
+            case "nsp2atoms":
+                return "Set a number of sp2 carbon atoms in selected structure."
 
 
 class BasisSet(My_Tooltip):
@@ -58,13 +69,28 @@ class Pseudo(My_Tooltip):
 
 
 class View(My_Tooltip):
+    def __init__(self, switcher="material") -> None:
+        super().__init__()
+        self.switcher = switcher
+
     def text(self):
-        return "Show current settings in Gaussian input file."
+        match self.switcher:
+            case "case1":
+                return "dipole"
+            case "case2":
+                return "Update information about selected atoms and surface structure from loaded  Gaussian `*.log` file."
+            case _:
+                return "Show current settings in Gaussian input file."
 
 
 class Edit(My_Tooltip):
     def text(self):
         return "Edit methodology by specyfying Route section in Gassuan input file."
+
+
+class AtomIdx(My_Tooltip):
+    def text(self):
+        return "AtomIdx."
 
 
 class Open(My_Tooltip):

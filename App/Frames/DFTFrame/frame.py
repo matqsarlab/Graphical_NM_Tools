@@ -4,7 +4,7 @@ import customtkinter
 from Buttons.DFTFrame.buttons import DFTFrame_buttons
 from Buttons.spinbox import FloatSpinbox
 from Static._dft_read import dft_read
-from Static.tooltips import BasisSet, Charge, Multiplicity, NProc, Pseudo, Ram
+from Static.tooltips import BasisSet, GeneralButtons, Pseudo
 
 
 def DFTFrame(self):
@@ -61,7 +61,7 @@ def DFTFrame(self):
     self.spinbox_1.grid(
         padx=20, pady=(50, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    NProc().tooltip(button=self.spinbox_1)
+    GeneralButtons(button="nproc").tooltip(button=self.spinbox_1)
     self._spinboxN += 1
 
     self.spinbox_2 = FloatSpinbox(
@@ -74,7 +74,7 @@ def DFTFrame(self):
     self.spinbox_2.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    Ram().tooltip(button=self.spinbox_2)
+    GeneralButtons(button="ram").tooltip(button=self.spinbox_2)
     self._spinboxN += 1
 
     self.spinbox_3 = FloatSpinbox(
@@ -87,7 +87,7 @@ def DFTFrame(self):
     self.spinbox_3.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    Charge().tooltip(button=self.spinbox_3)
+    GeneralButtons("charge").tooltip(button=self.spinbox_3)
     self._spinboxN += 1
 
     self.spinbox_4 = FloatSpinbox(
@@ -99,7 +99,7 @@ def DFTFrame(self):
     self.spinbox_4.grid(
         padx=20, pady=(20, 0), row=self._spinboxN, column=0, sticky="we"
     )
-    Multiplicity().tooltip(button=self.spinbox_4)
+    GeneralButtons("multiplicity").tooltip(button=self.spinbox_4)
     self._spinboxN += 1
 
     self.spinbox_5 = customtkinter.CTkOptionMenu(
