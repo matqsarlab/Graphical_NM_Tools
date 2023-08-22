@@ -53,7 +53,7 @@ def DFTFrame_buttons(self):
     )
     self.frozen_box.grid(row=6, column=1, sticky="w", padx=(20, 20), pady=(20, 0))
     self.frozen_box.lower(belowThis=self.open_button)
-    Froze().tooltip(self.frozen_box)
+    Froze(option="dft").tooltip(self.frozen_box)
 
     self.save_button = customtkinter.CTkButton(
         master=self.rightBlock_frame,

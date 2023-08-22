@@ -127,6 +127,7 @@ def DescriptorsFrame(self, height=height):
         "0.0",
         "CTkTextbox\n\n" + "Descriptors Terminal...",
     )
+    self.textbox2.configure(state="disabled")
     self.rightBlock_frame.columnconfigure(1, weight=1)
 
     self._spinboxN += 1

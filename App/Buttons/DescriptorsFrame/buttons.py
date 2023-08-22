@@ -3,7 +3,7 @@ from Buttons.DescriptorsFrame.Events.button_event import (openSfiles,
                                                           saveSfiles,
                                                           viewButtonFunc)
 from Buttons.DipoleFrame.Events.button_event import edit_method
-from Static.tooltips import AtomIdx, View
+from Static.tooltips import AtomIdx, Open, Save, View
 
 
 def DescriptorsFrame_buttons(self):
@@ -41,6 +41,7 @@ def DescriptorsFrame_buttons(self):
         pady=(10, 0),
         sticky="es",
     )
+    Open(switcher="log").tooltip(button=self.s1)
 
     self.save_button = customtkinter.CTkButton(
         master=self.rightBlock_frame,
@@ -57,5 +58,7 @@ def DescriptorsFrame_buttons(self):
         pady=(20, 0),
         sticky="es",
     )
+    Save(switcher="descr").tooltip(button=self.save_button)
+
     if self._xyz != "XYZ Structure...":
         self.save_button.configure(state="normal")

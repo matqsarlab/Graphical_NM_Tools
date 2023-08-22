@@ -130,17 +130,22 @@ def DFTFrame(self):
 
     # TextBox
     self.textbox2 = customtkinter.CTkTextbox(
-        self.rightBlock_frame, width=250, height=300
+        self.rightBlock_frame, width=250, height=300, wrap="word"
     )
     self.textbox2.grid(
         row=0, column=1, padx=(20, 20), pady=(20, 0), columnspan=2, sticky="ew"
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n"
-        + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n"
-        * 200,
+        "Gaussian Input Creator\n\n"
+        + "It allows you to conveniently create input files for Gaussian quantum chemistry software."
+        + " A set of buttons allows you to easily declare the number of processors, RAM, charge and the"
+        + "multiplicity of the considered system, as well as the choice of the basis set and (if necessary)"
+        + "the effective core potential [pseudo potential]. In addition, it is possible to edit the predefined"
+        + "calculation method in the `Route` section using the Edit button.",
     )
+    self.textbox2.configure(state="disabled")
+
     self.rightBlock_frame.columnconfigure(1, weight=1)
 
     DFTFrame_buttons(self)

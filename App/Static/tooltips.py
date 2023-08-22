@@ -90,12 +90,20 @@ class Edit(My_Tooltip):
 
 class AtomIdx(My_Tooltip):
     def text(self):
-        return "AtomIdx."
+        return "Specify atoms and corners (boundary) to calculate surface area."
 
 
 class Open(My_Tooltip):
+    def __init__(self, switcher="xyz") -> None:
+        super().__init__()
+        self.switcher = switcher
+
     def text(self):
-        return "Load `*.xyz` structure files."
+        match self.switcher:
+            case "log":
+                return "Load Gaussian `*.log` files."
+            case _:
+                return "Load `*.xyz` structure files."
 
 
 class Save(My_Tooltip):
@@ -109,13 +117,22 @@ class Save(My_Tooltip):
                 return (
                     "Save `*.com` Gaussian input files from loaded `*.xyz` structures."
                 )
+            case "descr":
+                return "Calc and Save descriptors in `descriptors.qsarlab` file."
             case _:
                 return "Save `*.xyz` files from loaded structures (Material - Molecule/Dipole)."
 
 
 class Froze(My_Tooltip):
+    def __init__(self, option="com") -> None:
+        super().__init__()
+        self.option = option
+
     def text(self):
-        return "If checked, atoms/atom from structure 1 are locked."
+        if self.option == None:
+            return "If checked, Material's atoms are locked."
+        else:
+            return "If checked, atoms are locked."
 
 
 class Material(My_Tooltip):
