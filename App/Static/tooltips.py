@@ -143,8 +143,8 @@ class Material(My_Tooltip):
     def text(self):
         match self.switcher:
             case "dipole":
-                return "dipole"
+                return "Open the file with the coordinates `xyz` for the dipole."
             case "molecule":
-                return "molecule"
+                return "Open the file with the coordinates `xyz` for the molecule."
             case _:
-                return "material"
+                return "Open the file with the coordinates `xyz` for the material."
