@@ -118,14 +118,31 @@ def DescriptorsFrame(self, height=height):
 
     # TextBox
     self.textbox2 = customtkinter.CTkTextbox(
-        self.rightBlock_frame, width=250, height=300
+        self.rightBlock_frame, width=250, height=300, wrap="word"
     )
     self.textbox2.grid(
         row=0, column=1, padx=(20, 20), pady=(20, 0), columnspan=2, sticky="ew"
     )
     self.textbox2.insert(
         "0.0",
-        "CTkTextbox\n\n" + "Descriptors Terminal...",
+        "Descriptors Calculator"
+        "\n\nThis section allows you to calculate several descriptors based on the Gaussian `*.log` output file."
+        " First, you need to set information about the surface fragment under consideration using the buttons on the"
+        " left side of the panel. In the next step, you need to specify which atoms are part of the surface (e.g. 1-24,"
+        " 30, 32, 40-44 -> `Atom Indexes` button) and specify the vectors (A = [a1,a2], B = [b1,b2] - where a1, a2, b1,"
+        " b2 are the numbers"
+        " of atoms), in such a way that the area stretched between these vectors (A x B = Surface Area) is as close"
+        " to real as possible."
+        "\n\nAn example setting of the `Atom indexes` section may look like this:"
+        "\n\n----------------------------------------------"
+        "\natom indexes = 1-24, 30, 32, 40-44"
+        "\na1 = 1"
+        "\na2 = 8"
+        "\nb1 = 24"
+        "\nb2 = 13"
+        "\n----------------------------------------------"
+        "\n\nThe result `qsarlab.descr` file contains information about the descriptors values calculated per"
+        " surface area.",
     )
     self.textbox2.configure(state="disabled")
     self.rightBlock_frame.columnconfigure(1, weight=1)

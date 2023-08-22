@@ -137,12 +137,12 @@ def DFTFrame(self):
     )
     self.textbox2.insert(
         "0.0",
-        "Gaussian Input Creator\n\n"
-        + "It allows you to conveniently create input files for Gaussian quantum chemistry software."
-        + " A set of buttons allows you to easily declare the number of processors, RAM, charge and the"
-        + "multiplicity of the considered system, as well as the choice of the basis set and (if necessary)"
-        + "the effective core potential [pseudo potential]. In addition, it is possible to edit the predefined"
-        + "calculation method in the `Route` section using the Edit button.",
+        "Gaussian Input Creator"
+        "\n\nIt allows you to conveniently create input files for Gaussian quantum chemistry software."
+        " A set of buttons allows you to easily declare the number of processors, RAM, charge and the"
+        " multiplicity of the considered system, as well as the choice of the basis set and (if necessary)"
+        " the effective core potential [pseudo potential]. In addition, it is possible to edit the predefined"
+        " calculation method in the `Route` section using the Edit button.",
     )
     self.textbox2.configure(state="disabled")
 

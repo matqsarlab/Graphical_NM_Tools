@@ -136,24 +136,24 @@ def DipoleFrame(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "Material-Molecule\n\n"
-        + " This section allows you to load two structures - a crystalline material and a"
-        + " common molecule (e.g. glycine) then move and rotate them relative to each other in "
-        + " a beneficial and predetermined way. The shift and rotation algorithm is based on determining"
-        + " the most extreme groups in the nanomaterial and molecule. Remember to select the nanomaterial"
-        + " wall in relation to which the molecule will be set - the selection is made by appropriate preparation"
-        + " (rotation) of the `*xyz` file with the material structure."
-        + "\n\nFurthermore, it allows you to set up a information about method and"
-        + " computing power required to make a Gaussian input file in next sub-section `Gaussian Input Creator`"
-        + " A set of buttons allows you to easily declare the number of processors, RAM, charge and the"
-        + " multiplicity of the considered system, as well as the choice of the basis set for material"
-        + " and for molecule. In addition, it is possible to edit the predefined"
-        + " calculation method in the `Route` section using the Edit button."
-        + "\n\nUsing this method produces three output files: the coordinates file with the extension `xyz`,"
-        + " the `atom_info` file which contains the information on which lines matrial/molecule starts and ends,"
-        + " and the 'dft_info' containing the `Route` section with information about the method, and other required"
-        + " information (such as basis set for material and molecules)."
-        + "\n\n More information in the manual.",
+        "Material-Molecule"
+        "\n\nThis section allows you to load two structures - a crystalline material and a"
+        " common molecule (e.g. glycine) then move and rotate them relative to each other in "
+        " a beneficial and predetermined way. The shift and rotation algorithm is based on determining"
+        " the most extreme groups in the nanomaterial and molecule. Remember to select the nanomaterial"
+        " wall in relation to which the molecule will be set - the selection is made by appropriate preparation"
+        " (rotation) of the `*xyz` file with the material structure."
+        "\n\nFurthermore, it allows you to set up a information about method and"
+        " computing power required to make a Gaussian input file in next sub-section `Gaussian Input Creator`"
+        " A set of buttons allows you to easily declare the number of processors, RAM, charge and the"
+        " multiplicity of the considered system, as well as the choice of the basis set for material"
+        " and for molecule. In addition, it is possible to edit the predefined"
+        " calculation method in the `Route` section using the Edit button."
+        "\n\nUsing this method produces three output files: the coordinates file with the extension `xyz`,"
+        " the `atom_info` file which contains the information on which lines matrial/molecule starts and ends,"
+        " and the 'dft_info' containing the `Route` section with information about the method, and other required"
+        " information (such as basis set for material and molecules)."
+        "\n\n More information in the manual.",
     )
     self.textbox2.configure(state="disabled")
 
@@ -220,9 +220,9 @@ def DipoleFrame2(self, height=height):
     )
     self.textbox2.insert(
         "0.0",
-        "Gaussian Input Creator\n\n"
-        + "It allows you to make Gaussian input files using `xyz`, `atom_info` and 'dft_info' files."
-        + "In addition, the `Froze` button allows you to freeze the atoms of the material in the input file.",
+        "Gaussian Input Creator"
+        "\n\nIt allows you to make Gaussian input files using `xyz`, `atom_info` and 'dft_info' files."
+        " In addition, the `Froze` button allows you to freeze the atoms of the material in the input file.",
     )
     self.textbox2.configure(state="disabled")
     self.rightBlock_frame.columnconfigure(1, weight=1)

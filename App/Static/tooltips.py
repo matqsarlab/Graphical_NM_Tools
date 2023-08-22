@@ -118,7 +118,7 @@ class Save(My_Tooltip):
                     "Save `*.com` Gaussian input files from loaded `*.xyz` structures."
                 )
             case "descr":
-                return "Calc and Save descriptors in `descriptors.qsarlab` file."
+                return "Calc and Save descriptors in `qsarlab.descr` file."
             case _:
                 return "Save `*.xyz` files from loaded structures (Material - Molecule/Dipole)."
 

@@ -20,7 +20,7 @@ def DescriptorsFrame_buttons(self):
     self.method = customtkinter.CTkButton(
         master=self.leftBlock_frame,
         fg_color="#b36b00",
-        text="Atom indexes",
+        text="Atom Indexes",
         command=lambda: edit_method(self, self._descriptors_atom_indexes),
         width=80,
     )

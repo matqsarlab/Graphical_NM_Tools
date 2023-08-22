@@ -3,7 +3,6 @@ import re
 
 import customtkinter
 from customtkinter import filedialog
-
 from Static._dft_read import dft_read
 from Static.calc_descriptors import Calc
 from Static.create_console import insert_txt
@@ -135,7 +134,7 @@ def saveSfiles(self):
         for k in buttons:
             result[k] = buttons[k] / area
 
-        with open(os.path.join(dir_path, "descriptors.qsarlab"), "w") as f:
+        with open(os.path.join(dir_path, "qsarlab.descr"), "w") as f:
             for k in result:
                 f.write(f"{k} / A^2 = {result[k]}")
                 f.write("\n")
