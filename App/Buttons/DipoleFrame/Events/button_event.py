@@ -4,7 +4,6 @@ import re
 import customtkinter
 import numpy as np
 from customtkinter import filedialog
-
 from Static._dft_read import dft_info
 from Static.Align_two_3D_object import (Structure1_translate,
                                         Structure2_add_rotate)
@@ -93,7 +92,9 @@ def saveSfiles(self):
                     basis2,
                     self._default_method,
                 )
-                with open(os.path.join(dir, sub_dir1, sub_dir2, "dft_info"), "w") as f:
+                with open(
+                    os.path.join(dir, sub_dir1, sub_dir2, "method_info"), "w"
+                ) as f:
                     f.write(txt)
 
         self._name = {}
@@ -160,7 +161,7 @@ def openToGaussianDir(self):
     list_of_files_noxyz = []
     errors = set()
 
-    for (dirpath, dirnames, filenames) in os.walk(path):
+    for dirpath, dirnames, filenames in os.walk(path):
         for filename in filenames:
             if filename.endswith(".xyz"):
                 relpath = os.path.relpath(dirpath, path)
@@ -169,7 +170,7 @@ def openToGaussianDir(self):
                     [True if i == "atom_info" else False for i in os.listdir(dirpath)]
                 )
                 dfti = any(
-                    [True if i == "dft_info" else False for i in os.listdir(dirpath)]
+                    [True if i == "method_info" else False for i in os.listdir(dirpath)]
                 )
                 if ati == True:
                     atom_info[dirpath] = ("atom_info OK", "agree")
@@ -178,9 +179,9 @@ def openToGaussianDir(self):
                     errors.add(dirpath)
 
                 if dfti == True:
-                    dft_info[dirpath] = ("dft_info OK", "agree")
+                    dft_info[dirpath] = ("method_info OK", "agree")
                 else:
-                    dft_info[dirpath] = ("dft_info ERROR", "error")
+                    dft_info[dirpath] = ("method_info ERROR", "error")
                     errors.add(dirpath)
                 self.save_button.configure(state="normal")
 
@@ -216,7 +217,7 @@ def openToGaussianDir(self):
         self.consoletextbox.insert("end", f"{n}\t\t\t ALERT: no xyz files\n", "warning")
     self.consoletextbox.configure(state="disabled")
 
-    for key in errors:  # remove from dict directory without atom_info/dft_info
+    for key in errors:  # remove from dict directory without atom_info/method_info
         del self.list_of_files_agree[key]
 
 
@@ -239,9 +240,9 @@ def gaussianInputCreator(self):
         n1 = path.split("/")[-1]
         n2 = path.split("/")[-2]
         f_xyz = [f for f in os.listdir(path) if f.endswith("xyz")][0]
-        with open(path + "/dft_info") as dft, open(path + "/atom_info") as atom, open(
-            os.path.join(path, f_xyz)
-        ) as xyz:
+        with open(path + "/method_info") as dft, open(
+            path + "/atom_info"
+        ) as atom, open(os.path.join(path, f_xyz)) as xyz:
             atom_info = atom.readlines()
             dft_info = dft.readlines()
             atom_1 = atom_info[3][1 + atom_info[3].index("=") :].replace("\n", "")

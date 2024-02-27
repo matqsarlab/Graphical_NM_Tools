@@ -24,7 +24,7 @@ def NavButtons(self):
         corner_radius=10,
         height=40,
         border_spacing=10,
-        text="DFT",
+        text="Gaussian Input\nCreator",
         text_color=("gray10", "gray90"),
         hover_color=("gray70", "gray30"),
         anchor="c",

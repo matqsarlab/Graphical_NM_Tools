@@ -4,7 +4,6 @@ import re
 import customtkinter
 import numpy as np
 from customtkinter import filedialog
-
 from Static._dft_read import dipole_info
 from Static.Align_two_3D_object import (Structure1_translate,
                                         Structure2_add_rotate)
@@ -114,7 +113,7 @@ def saveSfiles(self):
                 self._default_method_dipole,
                 pseudo=self._choose_pseudo_potential.get(),
             )
-            with open(os.path.join(dir, sub_dir1, "dft_info"), "w") as f:
+            with open(os.path.join(dir, sub_dir1, "method_info"), "w") as f:
                 f.write(txt)
 
         self._name = {}
@@ -160,7 +159,7 @@ def openToGaussianDir(self):
     list_of_files_noxyz = []
     errors = set()
 
-    for (dirpath, dirnames, filenames) in os.walk(path):
+    for dirpath, dirnames, filenames in os.walk(path):
         for filename in filenames:
             if filename.endswith(".xyz"):
                 relpath = os.path.relpath(dirpath, path)
@@ -169,7 +168,7 @@ def openToGaussianDir(self):
                     [True if i == "atom_info" else False for i in os.listdir(dirpath)]
                 )
                 dfti = any(
-                    [True if i == "dft_info" else False for i in os.listdir(dirpath)]
+                    [True if i == "method_info" else False for i in os.listdir(dirpath)]
                 )
                 if ati == True:
                     atom_info[dirpath] = ("atom_info OK", "agree")
@@ -178,9 +177,9 @@ def openToGaussianDir(self):
                     errors.add(dirpath)
 
                 if dfti == True:
-                    dft_info[dirpath] = ("dft_info OK", "agree")
+                    dft_info[dirpath] = ("method_info OK", "agree")
                 else:
-                    dft_info[dirpath] = ("dft_info ERROR", "error")
+                    dft_info[dirpath] = ("method_info ERROR", "error")
                     errors.add(dirpath)
                 self.save_button.configure(state="normal")
 
@@ -216,7 +215,7 @@ def openToGaussianDir(self):
         self.consoletextbox.insert("end", f"{n}\t\t\t ALERT: no xyz files\n", "warning")
     self.consoletextbox.configure(state="disabled")
 
-    for key in errors:  # remove from dict directory without atom_info/dft_info
+    for key in errors:  # remove from dict directory without atom_info/method_info
         del self.list_of_files_agree[key]
 
 
@@ -247,8 +246,7 @@ def gaussianInputCreator(self):
         f_xyz_list = [f for f in os.listdir(path) if f.endswith("xyz")]
 
         for f_xyz in f_xyz_list:
-
-            with open(path + "/dft_info") as dft, open(
+            with open(path + "/method_info") as dft, open(
                 path + "/atom_info"
             ) as atom, open(os.path.join(path, f_xyz)) as xyz:
                 dft_info = dft.readlines()
@@ -273,9 +271,7 @@ def gaussianInputCreator(self):
                     down[-1] = down[-1].replace("pseudo=", f"{atom_1} 0\n")
 
                 idx_chk = [i for i, item in enumerate(up) if "%chk" in item][0]
-                print(up[idx_chk])
                 up[idx_chk] = up[idx_chk].replace("\n", f"{f_xyz.split('.')[0]}\n")
-                print(up[idx_chk])
 
             with open(os.path.join(path, f_xyz.replace("xyz", "com")), "w") as com:
                 com.write("".join(up))
